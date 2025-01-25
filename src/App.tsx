@@ -1,23 +1,13 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import Page from "@/app/dashboard/page.tsx";
+import Dashboard from "@/app/dashboard/page.tsx";
 import LoginPage from "@/app/login/page.tsx";
+import {Route, Routes} from "react-router";
 
 export default function App() {
-  return (
-      <LoginPage />
-  )
+    return (
+        <Routes>
+            <Route path="login"  element={<LoginPage/>}/>
+            <Route path="dashboard" element={<Dashboard/>}/>
+            <Route path="*" element={<div>404</div>}/>
+        </Routes>
+    )
 }
