@@ -2,8 +2,6 @@ services:
   mongo:
     image: mongo:4.4.29
     container_name: microcks-db
-    volumes:
-      - "./microcks-data:/data/db"
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0

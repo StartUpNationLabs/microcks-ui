@@ -2,6 +2,7 @@ import {GalleryVerticalEnd} from "lucide-react"
 
 import {LoginForm} from "@/components/login-form"
 import MicrocksLogo from "../../assets/microcks-big.png"
+import {useKeycloak} from "@react-keycloak/web";
 
 export default function LoginPage() {
     return (

@@ -1,7 +1,7 @@
 import Dashboard from "@/app/dashboard/page.tsx";
 import LoginPage from "@/app/login/page.tsx";
 import {Route, Routes} from "react-router";
-
+import {useKeycloak} from "@react-keycloak/web";
 export default function App() {
     return (
         <Routes>
