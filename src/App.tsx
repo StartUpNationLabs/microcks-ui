@@ -1,6 +1,6 @@
 import Dashboard from "@/app/dashboard/page.tsx";
 import LoginPage from "@/app/login/page.tsx";
-import Services from "./app/service/page";
+import Services from "./app/dashboard/service/page";
 import {Route, Routes} from "react-router";
 export default function App() {
     return (
