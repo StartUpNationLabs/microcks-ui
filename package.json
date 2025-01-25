@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-client": "npx openapi-generator-cli generate -i https://raw.githubusercontent.com/microcks/microcks/refs/heads/master/api/microcks-openapi-v1.9.yaml -g typescript-axios -o ./src/api"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.2",
