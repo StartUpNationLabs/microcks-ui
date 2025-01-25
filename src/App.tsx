@@ -14,9 +14,10 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Page from "@/app/dashboard/page.tsx";
+import LoginPage from "@/app/login/page.tsx";
 
 export default function App() {
   return (
-      <Page />
+      <LoginPage />
   )
 }
