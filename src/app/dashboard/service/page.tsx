@@ -26,9 +26,9 @@ export default function Services() {
                   </Breadcrumb>
                 </div>
                 </header>
-                <div className="container mx-auto">
-                    <h1>APIs and Services</h1>
-                    <h2>These are the APIs and Services managed by Microcks.</h2>
+                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                    <h1 className="text-3xl font-semibold tracking-tight leading-tight mb-2">APIs and Services</h1>
+                    <h2 className="text-lg">These are the APIs and Services managed by Microcks.</h2>
                 </div>
             </SidebarInset>
     );
