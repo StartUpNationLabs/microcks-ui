@@ -6,12 +6,12 @@ import {Homepage} from "@/app/dashboard/homepage/page.tsx";
 export default function App() {
     return (
         <Routes>
-            <Route path="login"  element={<LoginPage/>}/>
-            <Route path="dashboard" element={<Dashboard/>}>
-              <Route path="services" element={<Services/>}/>
-              <Route path="" element={<Homepage/>}/>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="dashboard" element={<Dashboard />}>
+                <Route path="services" element={<Services />} />
+                <Route path="" element={<Homepage/>} />
             </Route>
-            <Route path="*" element={<div>404</div>}/>
+            <Route path="*" element={<div>404</div>} />
         </Routes>
     )
 }
