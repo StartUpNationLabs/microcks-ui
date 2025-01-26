@@ -1,5 +1,5 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import React from 'react'
+import { useQuery } from '@tanstack/react-query'
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -11,10 +11,16 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-} from "@tanstack/react-table";
-import { Table, TableHeader, TableBody, TableRow, TableCell } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from '@tanstack/react-table'
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableCell,
+} from '@/components/ui/table'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import {
     Pagination,
     PaginationContent,
@@ -23,50 +29,52 @@ import {
     PaginationNext,
     PaginationEllipsis,
     PaginationLink,
-} from "@/components/ui/pagination";
+} from '@/components/ui/pagination'
 
 // Fetcher function to get data from the API
 const fetchServices = async ({ pageParam = 0 }) => {
-    const response = await fetch(`http://localhost:8080/api/services?pages=${pageParam}&size=20`);
-    if (!response.ok) throw new Error("Failed to fetch data");
-    return response.json();
-};
+    const response = await fetch(
+        `http://localhost:8080/api/services?pages=${pageParam}&size=20`
+    )
+    if (!response.ok) throw new Error('Failed to fetch data')
+    return response.json()
+}
 
 const DataTable = () => {
     // React Query hook to fetch data
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["services"],
+        queryKey: ['services'],
         queryFn: fetchServices,
-    });
+    })
 
-    const [globalFilter, setGlobalFilter] = React.useState("");
+    const [globalFilter, setGlobalFilter] = React.useState('')
 
     // Table columns definition
     const columns = React.useMemo<ColumnDef<any>[]>(
         () => [
             {
-                accessorKey: "name",
-                header: "Name",
+                accessorKey: 'name',
+                header: 'Name',
                 cell: (info) => info.getValue(),
             },
             {
-                accessorKey: "version",
-                header: "Version",
+                accessorKey: 'version',
+                header: 'Version',
                 cell: (info) => info.getValue(),
             },
             {
-                accessorKey: "type",
-                header: "Type",
+                accessorKey: 'type',
+                header: 'Type',
                 cell: (info) => info.getValue(),
             },
             {
-                accessorKey: "operationsCount",
-                header: "Operations Count",
+                accessorKey: 'operationsCount',
+                header: 'Operations Count',
                 cell: (info) => info.row.original.operations.length,
             },
         ],
         []
-    );
+    )
 
     const tableInstance = useReactTable({
         data: data || [],
@@ -79,10 +87,10 @@ const DataTable = () => {
         getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-    });
+    })
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error fetching data.</div>;
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <div>Error fetching data.</div>
 
     return (
         <div>
@@ -92,9 +100,9 @@ const DataTable = () => {
                     placeholder="Search..."
                     value={globalFilter}
                     onChange={(e) => setGlobalFilter(e.target.value)}
-                    style={{ width: "300px" }}
+                    style={{ width: '300px' }}
                 />
-                <Button onClick={() => setGlobalFilter("")}>Clear</Button>
+                <Button onClick={() => setGlobalFilter('')}>Clear</Button>
             </div>
             <Table>
                 <TableHeader>
@@ -106,10 +114,19 @@ const DataTable = () => {
                                         onClick={header.column.getToggleSortingHandler()}
                                         className="cursor-pointer flex items-center"
                                     >
-                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                                        {header.column.getIsSorted() ? (
-                                            header.column.getIsSorted() === "asc" ? " 🔼" : " 🔽"
-                                        ) : null}
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                  header.column.columnDef
+                                                      .header,
+                                                  header.getContext()
+                                              )}
+                                        {header.column.getIsSorted()
+                                            ? header.column.getIsSorted() ===
+                                              'asc'
+                                                ? ' 🔼'
+                                                : ' 🔽'
+                                            : null}
                                     </div>
                                 </TableCell>
                             ))}
@@ -120,7 +137,12 @@ const DataTable = () => {
                     {tableInstance.getRowModel().rows.map((row) => (
                         <TableRow key={row.id}>
                             {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                                <TableCell key={cell.id}>
+                                    {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                    )}
+                                </TableCell>
                             ))}
                         </TableRow>
                     ))}
@@ -135,16 +157,20 @@ const DataTable = () => {
                             disabled={!tableInstance.getCanPreviousPage()}
                         />
                     </PaginationItem>
-                    {Array.from({ length: tableInstance.getPageCount() }).map((_, index) => (
-                        <PaginationItem key={index}>
-                            <PaginationLink
-                                href="#"
-                                onClick={() => tableInstance.setPageIndex(index)}
-                            >
-                                {index + 1}
-                            </PaginationLink>
-                        </PaginationItem>
-                    ))}
+                    {Array.from({ length: tableInstance.getPageCount() }).map(
+                        (_, index) => (
+                            <PaginationItem key={index}>
+                                <PaginationLink
+                                    href="#"
+                                    onClick={() =>
+                                        tableInstance.setPageIndex(index)
+                                    }
+                                >
+                                    {index + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        )
+                    )}
                     <PaginationItem>
                         <PaginationEllipsis />
                     </PaginationItem>
@@ -158,7 +184,7 @@ const DataTable = () => {
                 </PaginationContent>
             </Pagination>
         </div>
-    );
-};
+    )
+}
 
-export default DataTable;
+export default DataTable

@@ -12,16 +12,32 @@
  * Do not edit the class manually.
  */
 
-
-import type { Configuration } from './configuration';
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
-import globalAxios from 'axios';
+import type { Configuration } from './configuration'
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios'
+import globalAxios from 'axios'
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
-import type { RequestArgs } from './base';
+import {
+    DUMMY_BASE_URL,
+    assertParamExists,
+    setApiKeyToObject,
+    setBasicAuthToObject,
+    setBearerAuthToObject,
+    setOAuthToObject,
+    setSearchParams,
+    serializeDataIfNeeded,
+    toPathString,
+    createRequestFunction,
+} from './common'
+import type { RequestArgs } from './base'
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
+import {
+    BASE_PATH,
+    COLLECTION_FORMATS,
+    BaseAPI,
+    RequiredError,
+    operationServerMap,
+} from './base'
 
 /**
  * Abstract bean representing a Service or API Exchange.
@@ -34,15 +50,16 @@ export interface AbstractExchange {
      * @type {string}
      * @memberof AbstractExchange
      */
-    'type': AbstractExchangeTypeEnum;
+    type: AbstractExchangeTypeEnum
 }
 
 export const AbstractExchangeTypeEnum = {
     ReqRespPair: 'reqRespPair',
-    UnidirEvent: 'unidirEvent'
-} as const;
+    UnidirEvent: 'unidirEvent',
+} as const
 
-export type AbstractExchangeTypeEnum = typeof AbstractExchangeTypeEnum[keyof typeof AbstractExchangeTypeEnum];
+export type AbstractExchangeTypeEnum =
+    (typeof AbstractExchangeTypeEnum)[keyof typeof AbstractExchangeTypeEnum]
 
 /**
  * Protocol binding details for asynchronous operations
@@ -55,43 +72,43 @@ export interface Binding {
      * @type {string}
      * @memberof Binding
      */
-    'type': BindingTypeEnum;
+    type: BindingTypeEnum
     /**
      * Type of key for Kafka messages
      * @type {string}
      * @memberof Binding
      */
-    'keyType'?: string;
+    keyType?: string
     /**
      * Type of destination for asynchronous messages of this operation
      * @type {string}
      * @memberof Binding
      */
-    'destinationType'?: string;
+    destinationType?: string
     /**
      * Name of destination for asynchronous messages of this operation
      * @type {string}
      * @memberof Binding
      */
-    'destinationName': string;
+    destinationName: string
     /**
      * Quality of Service attribute for MQTT binding
      * @type {string}
      * @memberof Binding
      */
-    'qoS'?: string;
+    qoS?: string
     /**
      * Persistent attribute for MQTT binding
      * @type {boolean}
      * @memberof Binding
      */
-    'persistent'?: boolean;
+    persistent?: boolean
     /**
      * HTTP method for WebSocket binding
      * @type {string}
      * @memberof Binding
      */
-    'method'?: string;
+    method?: string
 }
 
 export const BindingTypeEnum = {
@@ -100,10 +117,11 @@ export const BindingTypeEnum = {
     Ws: 'WS',
     Amqp: 'AMQP',
     Nats: 'NATS',
-    Googlepubsub: 'GOOGLEPUBSUB'
-} as const;
+    Googlepubsub: 'GOOGLEPUBSUB',
+} as const
 
-export type BindingTypeEnum = typeof BindingTypeEnum[keyof typeof BindingTypeEnum];
+export type BindingTypeEnum =
+    (typeof BindingTypeEnum)[keyof typeof BindingTypeEnum]
 
 /**
  * A simple Counter type.
@@ -116,7 +134,7 @@ export interface Counter {
      * @type {number}
      * @memberof Counter
      */
-    'counter'?: number;
+    counter?: number
 }
 /**
  * The daily statistic of a service mock invocations
@@ -129,46 +147,46 @@ export interface DailyInvocationStatistic {
      * @type {string}
      * @memberof DailyInvocationStatistic
      */
-    'id': string;
+    id: string
     /**
      * The day (formatted as yyyyMMdd string) represented by this statistic
      * @type {string}
      * @memberof DailyInvocationStatistic
      */
-    'day': string;
+    day: string
     /**
      * The name of the service this statistic is related to
      * @type {string}
      * @memberof DailyInvocationStatistic
      */
-    'serviceName': string;
+    serviceName: string
     /**
      * The version of the service this statistic is related to
      * @type {string}
      * @memberof DailyInvocationStatistic
      */
-    'serviceVersion': string;
+    serviceVersion: string
     /**
      * The number of service mock invocations on this day
      * @type {number}
      * @memberof DailyInvocationStatistic
      */
-    'dailyCount': number;
+    dailyCount: number
     /**
      * The number of service mock invocations per hour of the day (keys range from 0 to 23)
      * @type {{ [key: string]: any; }}
      * @memberof DailyInvocationStatistic
      */
-    'hourlyCount'?: { [key: string]: any; };
+    hourlyCount?: { [key: string]: any }
     /**
      * The number of service mock invocations per minute of the day (keys range from 0 to 1439)
      * @type {{ [key: string]: any; }}
      * @memberof DailyInvocationStatistic
      */
-    'minuteCount'?: { [key: string]: any; };
+    minuteCount?: { [key: string]: any }
 }
 /**
- * 
+ *
  * @export
  * @interface EventMessage
  */
@@ -178,50 +196,52 @@ export interface EventMessage {
      * @type {string}
      * @memberof EventMessage
      */
-    'id': string;
+    id: string
     /**
      * Content type of message
      * @type {string}
      * @memberof EventMessage
      */
-    'mediaType': string;
+    mediaType: string
     /**
      * Unique distinct name of this message
      * @type {string}
      * @memberof EventMessage
      */
-    'name'?: string;
+    name?: string
     /**
      * Body content for this message
      * @type {string}
      * @memberof EventMessage
      */
-    'content'?: string;
+    content?: string
     /**
      * Identifier of Operation this message is associated to
      * @type {string}
      * @memberof EventMessage
      */
-    'operationId'?: string;
+    operationId?: string
     /**
      * Unique identifier of TestCase this message is attached (in case of a test)
      * @type {string}
      * @memberof EventMessage
      */
-    'testCaseId'?: string;
+    testCaseId?: string
     /**
      * Headers for this message
      * @type {Array<Header>}
      * @memberof EventMessage
      */
-    'headers'?: Array<Header>;
+    headers?: Array<Header>
 }
 /**
  * @type Exchange
  * Abstract representation of a Service or API exchange type (request/response, event based, ...)
  * @export
  */
-export type Exchange = { type: 'reqRespPair' } & RequestResponsePair | { type: 'unidirEvent' } & UnidirectionalEvent;
+export type Exchange =
+    | ({ type: 'reqRespPair' } & RequestResponsePair)
+    | ({ type: 'unidirEvent' } & UnidirectionalEvent)
 
 /**
  * Representation of optional features configuration used by Microcks server
@@ -229,32 +249,32 @@ export type Exchange = { type: 'reqRespPair' } & RequestResponsePair | { type: '
  * @interface FeaturesConfig
  */
 export interface FeaturesConfig {
-    [key: string]: any;
+    [key: string]: any
 
     /**
-     * 
+     *
      * @type {FeaturesConfigRepositoryFilter}
      * @memberof FeaturesConfig
      */
-    'repository-filter'?: FeaturesConfigRepositoryFilter;
+    'repository-filter'?: FeaturesConfigRepositoryFilter
     /**
-     * 
+     *
      * @type {FeaturesConfigMicrocksHub}
      * @memberof FeaturesConfig
      */
-    'microcks-hub'?: FeaturesConfigMicrocksHub;
+    'microcks-hub'?: FeaturesConfigMicrocksHub
     /**
-     * 
+     *
      * @type {FeaturesConfigRepositoryTenancy}
      * @memberof FeaturesConfig
      */
-    'repository-tenancy'?: FeaturesConfigRepositoryTenancy;
+    'repository-tenancy'?: FeaturesConfigRepositoryTenancy
     /**
-     * 
+     *
      * @type {FeaturesConfigAsyncApi}
      * @memberof FeaturesConfig
      */
-    'async-api'?: FeaturesConfigAsyncApi;
+    'async-api'?: FeaturesConfigAsyncApi
 }
 /**
  * Asynchronous feature properties
@@ -263,59 +283,59 @@ export interface FeaturesConfig {
  */
 export interface FeaturesConfigAsyncApi {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'default-binding'?: string;
+    'default-binding'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'endpoint-MQTT'?: string;
+    'endpoint-MQTT'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'endpoint-WS'?: string;
+    'endpoint-WS'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'endpoint-KAFKA'?: string;
+    'endpoint-KAFKA'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'endpoint-AMQP'?: string;
+    'endpoint-AMQP'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'endpoint-NATS'?: string;
+    'endpoint-NATS'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'endpoint-GOOGLEPUBSUB'?: string;
+    'endpoint-GOOGLEPUBSUB'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'enabled'?: string;
+    enabled?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigAsyncApi
      */
-    'frequencies'?: string;
+    frequencies?: string
 }
 /**
  * Microcks Hub feature properties
@@ -324,23 +344,23 @@ export interface FeaturesConfigAsyncApi {
  */
 export interface FeaturesConfigMicrocksHub {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigMicrocksHub
      */
-    'allowed-roles'?: string;
+    'allowed-roles'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigMicrocksHub
      */
-    'endpoint'?: string;
+    endpoint?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigMicrocksHub
      */
-    'enabled'?: string;
+    enabled?: string
 }
 /**
  * Repository filtering feature properties
@@ -349,29 +369,29 @@ export interface FeaturesConfigMicrocksHub {
  */
 export interface FeaturesConfigRepositoryFilter {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigRepositoryFilter
      */
-    'label-label'?: string;
+    'label-label'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigRepositoryFilter
      */
-    'enabled'?: string;
+    enabled?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigRepositoryFilter
      */
-    'label-list'?: string;
+    'label-list'?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigRepositoryFilter
      */
-    'label-key'?: string;
+    'label-key'?: string
 }
 /**
  * Repository tenancy feature properties
@@ -380,23 +400,23 @@ export interface FeaturesConfigRepositoryFilter {
  */
 export interface FeaturesConfigRepositoryTenancy {
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigRepositoryTenancy
      */
-    'enabled'?: string;
+    enabled?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof FeaturesConfigRepositoryTenancy
      */
-    'artifact-import-allowed-roles'?: string;
+    'artifact-import-allowed-roles'?: string
 }
 /**
  * @type GetService200Response
  * @export
  */
-export type GetService200Response = Service | ServiceView;
+export type GetService200Response = Service | ServiceView
 
 /**
  * Transport headers for both Requests and Responses
@@ -409,13 +429,13 @@ export interface Header {
      * @type {string}
      * @memberof Header
      */
-    'name': string;
+    name: string
     /**
      * Values for this Header
      * @type {Array<string>}
      * @memberof Header
      */
-    'values': Array<string>;
+    values: Array<string>
 }
 /**
  * Data Transfert Object for headers of both Requests and Responses
@@ -428,13 +448,13 @@ export interface HeaderDTO {
      * @type {string}
      * @memberof HeaderDTO
      */
-    'name': string;
+    name: string
     /**
      * Values for this header (comma separated strings)
      * @type {string}
      * @memberof HeaderDTO
      */
-    'values': string;
+    values: string
 }
 /**
  * An ImportJob allow defining a repository artifact to poll for discovering Services and APIs mocks and tests
@@ -447,85 +467,85 @@ export interface ImportJob {
      * @type {string}
      * @memberof ImportJob
      */
-    'id'?: string;
+    id?: string
     /**
      * Unique distinct name of this ImportJob
      * @type {string}
      * @memberof ImportJob
      */
-    'name': string;
+    name: string
     /**
      * URL of mocks and tests repository artifact
      * @type {string}
      * @memberof ImportJob
      */
-    'repositoryUrl': string;
+    repositoryUrl: string
     /**
      * Whether to disable SSL certificate verification when checking repository
      * @type {boolean}
      * @memberof ImportJob
      */
-    'repositoryDisableSSLValidation'?: boolean;
+    repositoryDisableSSLValidation?: boolean
     /**
      * Reserved for future usage
      * @type {string}
      * @memberof ImportJob
      */
-    'frequency'?: string;
+    frequency?: string
     /**
      * Creation date for this ImportJob
      * @type {string}
      * @memberof ImportJob
      */
-    'createdDate'?: string;
+    createdDate?: string
     /**
      * Date last import was done
      * @type {string}
      * @memberof ImportJob
      */
-    'lastImportDate'?: string;
+    lastImportDate?: string
     /**
      * Error message of last import (if any)
      * @type {string}
      * @memberof ImportJob
      */
-    'lastImportError'?: string;
+    lastImportError?: string
     /**
      * Whether this ImportJob is active (ie. scheduled for execution)
      * @type {boolean}
      * @memberof ImportJob
      */
-    'active'?: boolean;
+    active?: boolean
     /**
      * Etag of repository URL during previous import. Is used for not re-importing if no recent changes
      * @type {string}
      * @memberof ImportJob
      */
-    'etag'?: string;
+    etag?: string
     /**
      * References of Services discovered when checking repository
      * @type {Array<ServiceRef>}
      * @memberof ImportJob
      */
-    'serviceRefs'?: Array<ServiceRef>;
+    serviceRefs?: Array<ServiceRef>
     /**
-     * 
+     *
      * @type {Metadata}
      * @memberof ImportJob
      */
-    'metadata'?: Metadata;
+    metadata?: Metadata
     /**
-     * 
+     *
      * @type {SecretRef}
      * @memberof ImportJob
      */
-    'secretRef'?: SecretRef;
+    secretRef?: SecretRef
     /**
      * Flag telling if considered as primary or secondary artifact. Default to `true`
      * @type {boolean}
      * @memberof ImportJob
      */
-    'mainArtifact'?: boolean;
+    mainArtifact?: boolean
 }
 /**
  * Representation of Keycloak / SSO configuration used by Microcks server
@@ -538,45 +558,46 @@ export interface KeycloakConfig {
      * @type {string}
      * @memberof KeycloakConfig
      */
-    'realm': string;
+    realm: string
     /**
      * SSO Server authentication url
      * @type {string}
      * @memberof KeycloakConfig
      */
-    'auth-server-url': string;
+    'auth-server-url': string
     /**
      * Name of public-client that can be used for requesting OAuth token
      * @type {boolean}
      * @memberof KeycloakConfig
      */
-    'public-client': boolean;
+    'public-client': boolean
     /**
      * SSL certificates requirements
      * @type {string}
      * @memberof KeycloakConfig
      */
-    'ssl-required': KeycloakConfigSslRequiredEnum;
+    'ssl-required': KeycloakConfigSslRequiredEnum
     /**
      * Name of Keycloak resource/application used on client side
      * @type {string}
      * @memberof KeycloakConfig
      */
-    'resource': string;
+    resource: string
     /**
      * Whether Keycloak authentification and usage is enabled
      * @type {boolean}
      * @memberof KeycloakConfig
      */
-    'enabled': boolean;
+    enabled: boolean
 }
 
 export const KeycloakConfigSslRequiredEnum = {
     None: 'none',
-    External: 'external'
-} as const;
+    External: 'external',
+} as const
 
-export type KeycloakConfigSslRequiredEnum = typeof KeycloakConfigSslRequiredEnum[keyof typeof KeycloakConfigSslRequiredEnum];
+export type KeycloakConfigSslRequiredEnum =
+    (typeof KeycloakConfigSslRequiredEnum)[keyof typeof KeycloakConfigSslRequiredEnum]
 
 /**
  * Commodity object for holding metadata on any entity. This object is inspired by Kubernetes metadata.
@@ -589,25 +610,25 @@ export interface Metadata {
      * @type {number}
      * @memberof Metadata
      */
-    'createdOn': number;
+    createdOn: number
     /**
      * Last update of attached object
      * @type {number}
      * @memberof Metadata
      */
-    'lastUpdate': number;
+    lastUpdate: number
     /**
      * Annotations of attached object
      * @type {{ [key: string]: string; }}
      * @memberof Metadata
      */
-    'annotations'?: { [key: string]: string; };
+    annotations?: { [key: string]: string }
     /**
      * Labels put on attached object
      * @type {{ [key: string]: string; }}
      * @memberof Metadata
      */
-    'labels'?: { [key: string]: string; };
+    labels?: { [key: string]: string }
 }
 /**
  * OAuth2 authorized client that performed a test
@@ -616,31 +637,30 @@ export interface Metadata {
  */
 export interface OAuth2AuthorizedClient {
     /**
-     * 
+     *
      * @type {OAuth2GrantType}
      * @memberof OAuth2AuthorizedClient
      */
-    'grantType': OAuth2GrantType;
+    grantType: OAuth2GrantType
     /**
      * Name of authorized principal (clientId or username in the case of Password grant type)
      * @type {string}
      * @memberof OAuth2AuthorizedClient
      */
-    'principalName': string;
+    principalName: string
     /**
      * Identity Provider URI used for token retrieval
      * @type {string}
      * @memberof OAuth2AuthorizedClient
      */
-    'tokenUri': string;
+    tokenUri: string
     /**
      * Included scopes (separated using space)
      * @type {string}
      * @memberof OAuth2AuthorizedClient
      */
-    'scopes'?: string;
+    scopes?: string
 }
-
 
 /**
  * Represents a volatile OAuth2 client context usually associated with a Test request
@@ -653,37 +673,37 @@ export interface OAuth2ClientContent {
      * @type {string}
      * @memberof OAuth2ClientContent
      */
-    'clientId': string;
+    clientId: string
     /**
      * Secret for connecting to OAuth2 identity provider
      * @type {string}
      * @memberof OAuth2ClientContent
      */
-    'clientSecret': string;
+    clientSecret: string
     /**
      * URI for retrieving an access token from OAuth2 identity provider
      * @type {string}
      * @memberof OAuth2ClientContent
      */
-    'tokenUri': string;
+    tokenUri: string
     /**
      * Username in case you\'re using the Resource Owner Password flow
      * @type {string}
      * @memberof OAuth2ClientContent
      */
-    'username'?: string;
+    username?: string
     /**
      * User password in case you\'re suing the Resource Owner password flow
      * @type {string}
      * @memberof OAuth2ClientContent
      */
-    'password'?: string;
+    password?: string
     /**
      * Refresh token in case you\'re using the Refresh Token rotation flow
      * @type {string}
      * @memberof OAuth2ClientContent
      */
-    'refreshToken'?: string;
+    refreshToken?: string
 }
 /**
  * Enumeration for the different supported grants/flows of OAuth2
@@ -694,11 +714,11 @@ export interface OAuth2ClientContent {
 export const OAuth2GrantType = {
     Password: 'PASSWORD',
     ClientCredentials: 'CLIENT_CREDENTIALS',
-    RefreshToken: 'REFRESH_TOKEN'
-} as const;
+    RefreshToken: 'REFRESH_TOKEN',
+} as const
 
-export type OAuth2GrantType = typeof OAuth2GrantType[keyof typeof OAuth2GrantType];
-
+export type OAuth2GrantType =
+    (typeof OAuth2GrantType)[keyof typeof OAuth2GrantType]
 
 /**
  * An Operation of a Service or API
@@ -711,61 +731,61 @@ export interface Operation {
      * @type {string}
      * @memberof Operation
      */
-    'name': string;
+    name: string
     /**
      * Represents transport method
      * @type {string}
      * @memberof Operation
      */
-    'method': string;
+    method: string
     /**
      * Name of input parameters in case of Xml based Service
      * @type {string}
      * @memberof Operation
      */
-    'inputName'?: string;
+    inputName?: string
     /**
      * Name of output parameters in case of Xml based Service
      * @type {string}
      * @memberof Operation
      */
-    'outputName'?: string;
+    outputName?: string
     /**
      * Dispatcher strategy used for mocks
      * @type {string}
      * @memberof Operation
      */
-    'dispatcher'?: string;
+    dispatcher?: string
     /**
      * DispatcherRules used for mocks
      * @type {string}
      * @memberof Operation
      */
-    'dispatcherRules'?: string;
+    dispatcherRules?: string
     /**
      * Default response time delay for mocks
      * @type {number}
      * @memberof Operation
      */
-    'defaultDelay'?: number;
+    defaultDelay?: number
     /**
      * Paths the mocks endpoints are mapped on
      * @type {Array<string>}
      * @memberof Operation
      */
-    'resourcePaths'?: Array<string>;
+    resourcePaths?: Array<string>
     /**
      * Contraints that may apply to mock invocatino on this operation
      * @type {Array<ParameterConstraint>}
      * @memberof Operation
      */
-    'parameterContraints'?: Array<ParameterConstraint>;
+    parameterContraints?: Array<ParameterConstraint>
     /**
      * Map of protocol binding details for this operation
      * @type {{ [key: string]: Binding; }}
      * @memberof Operation
      */
-    'bindings'?: { [key: string]: Binding; };
+    bindings?: { [key: string]: Binding }
 }
 /**
  * Data Transfer object for grouping the mutable properties of an Operation
@@ -778,25 +798,25 @@ export interface OperationOverrideDTO {
      * @type {string}
      * @memberof OperationOverrideDTO
      */
-    'dispatcher'?: string;
+    dispatcher?: string
     /**
      * Rules of dispatcher for this operation
      * @type {string}
      * @memberof OperationOverrideDTO
      */
-    'dispatcherRules'?: string;
+    dispatcherRules?: string
     /**
      * Default delay in milliseconds to apply to mock responses on this operation
      * @type {number}
      * @memberof OperationOverrideDTO
      */
-    'defaultDelay'?: number;
+    defaultDelay?: number
     /**
      * Constraints that may apply to incoming parameters on this operation
      * @type {Array<ParameterConstraint>}
      * @memberof OperationOverrideDTO
      */
-    'parameterConstraints'?: Array<ParameterConstraint>;
+    parameterConstraints?: Array<ParameterConstraint>
 }
 /**
  * Companion object for Operation that may be used to express constraints on request parameters
@@ -809,40 +829,41 @@ export interface ParameterConstraint {
      * @type {string}
      * @memberof ParameterConstraint
      */
-    'name': string;
+    name: string
     /**
      * Whether it\'s a required constraint
      * @type {boolean}
      * @memberof ParameterConstraint
      */
-    'required'?: boolean;
+    required?: boolean
     /**
      * Whether it\'s a recopy constraint
      * @type {boolean}
      * @memberof ParameterConstraint
      */
-    'recopy'?: boolean;
+    recopy?: boolean
     /**
      * Whether it\'s a regular expression matching constraint
      * @type {string}
      * @memberof ParameterConstraint
      */
-    'mustMatchRegexp'?: string;
+    mustMatchRegexp?: string
     /**
      * Parameter location
      * @type {string}
      * @memberof ParameterConstraint
      */
-    'in'?: ParameterConstraintInEnum;
+    in?: ParameterConstraintInEnum
 }
 
 export const ParameterConstraintInEnum = {
     Path: 'path',
     Query: 'query',
-    Header: 'header'
-} as const;
+    Header: 'header',
+} as const
 
-export type ParameterConstraintInEnum = typeof ParameterConstraintInEnum[keyof typeof ParameterConstraintInEnum];
+export type ParameterConstraintInEnum =
+    (typeof ParameterConstraintInEnum)[keyof typeof ParameterConstraintInEnum]
 
 /**
  * A mock invocation or test request
@@ -855,37 +876,37 @@ export interface Request {
      * @type {string}
      * @memberof Request
      */
-    'id'?: string;
+    id?: string
     /**
      * Unique distinct name of this Request
      * @type {string}
      * @memberof Request
      */
-    'name': string;
+    name: string
     /**
      * Body content for this request
      * @type {string}
      * @memberof Request
      */
-    'content'?: string;
+    content?: string
     /**
      * Identifier of Operation this Request is associated to
      * @type {string}
      * @memberof Request
      */
-    'operationId': string;
+    operationId: string
     /**
      * Unique identifier of TestCase this Request is attached (in case of a test)
      * @type {string}
      * @memberof Request
      */
-    'testCaseId'?: string;
+    testCaseId?: string
     /**
      * Headers for this Request
      * @type {Array<Header>}
      * @memberof Request
      */
-    'headers'?: Array<Header>;
+    headers?: Array<Header>
 }
 /**
  * Request associated with corresponding Response
@@ -898,27 +919,28 @@ export interface RequestResponsePair {
      * @type {string}
      * @memberof RequestResponsePair
      */
-    'type': RequestResponsePairTypeEnum;
+    type: RequestResponsePairTypeEnum
     /**
-     * 
+     *
      * @type {Request}
      * @memberof RequestResponsePair
      */
-    'request': Request;
+    request: Request
     /**
-     * 
+     *
      * @type {Response}
      * @memberof RequestResponsePair
      */
-    'response': Response;
+    response: Response
 }
 
 export const RequestResponsePairTypeEnum = {
     ReqRespPair: 'reqRespPair',
-    UnidirEvent: 'unidirEvent'
-} as const;
+    UnidirEvent: 'unidirEvent',
+} as const
 
-export type RequestResponsePairTypeEnum = typeof RequestResponsePairTypeEnum[keyof typeof RequestResponsePairTypeEnum];
+export type RequestResponsePairTypeEnum =
+    (typeof RequestResponsePairTypeEnum)[keyof typeof RequestResponsePairTypeEnum]
 
 /**
  * Resource represents a Service or API artifacts such as specification, contract
@@ -931,45 +953,44 @@ export interface Resource {
      * @type {string}
      * @memberof Resource
      */
-    'id': string;
+    id: string
     /**
      * Unique name/business identifier for this Service or API resource
      * @type {string}
      * @memberof Resource
      */
-    'name': string;
+    name: string
     /**
      * String content of this resource
      * @type {string}
      * @memberof Resource
      */
-    'content': string;
+    content: string
     /**
-     * 
+     *
      * @type {ResourceType}
      * @memberof Resource
      */
-    'type': ResourceType;
+    type: ResourceType
     /**
      * Unique identifier of the Servoce or API this resource is attached to
      * @type {string}
      * @memberof Resource
      */
-    'serviceId': string;
+    serviceId: string
     /**
      * Relative path of this resource regarding main resource
      * @type {string}
      * @memberof Resource
      */
-    'path'?: string;
+    path?: string
     /**
      * Short name of the artifact this resource was extracted from
      * @type {string}
      * @memberof Resource
      */
-    'sourceArtifact'?: string;
+    sourceArtifact?: string
 }
-
 
 /**
  * Types of managed resources for Services or APIs
@@ -989,11 +1010,10 @@ export const ResourceType = {
     ProtobufSchema: 'PROTOBUF_SCHEMA',
     ProtobufDescription: 'PROTOBUF_DESCRIPTION',
     GraphqlSchema: 'GRAPHQL_SCHEMA',
-    PostmanCollection: 'POSTMAN_COLLECTION'
-} as const;
+    PostmanCollection: 'POSTMAN_COLLECTION',
+} as const
 
-export type ResourceType = typeof ResourceType[keyof typeof ResourceType];
-
+export type ResourceType = (typeof ResourceType)[keyof typeof ResourceType]
 
 /**
  * A mock invocation or test response
@@ -1006,37 +1026,37 @@ export interface Response {
      * @type {string}
      * @memberof Response
      */
-    'operationId': string;
+    operationId: string
     /**
      * Body content of this Response
      * @type {string}
      * @memberof Response
      */
-    'content'?: string;
+    content?: string
     /**
      * Unique identifier of Response
      * @type {string}
      * @memberof Response
      */
-    'id'?: string;
+    id?: string
     /**
      * Unique distinct name of this Response
      * @type {string}
      * @memberof Response
      */
-    'name': string;
+    name: string
     /**
      * Unique identifier of TestCase this Response is attached (in case of a test)
      * @type {string}
      * @memberof Response
      */
-    'testCaseId'?: string;
+    testCaseId?: string
     /**
      * Headers for this Response
      * @type {Array<Header>}
      * @memberof Response
      */
-    'headers'?: Array<Header>;
+    headers?: Array<Header>
 }
 /**
  * A Secret allows grouping informations on how to access a restricted resource such as a repsoitory URL. Secrets are typically used by ImpoortJobs.
@@ -1049,49 +1069,49 @@ export interface Secret {
      * @type {string}
      * @memberof Secret
      */
-    'id'?: string;
+    id?: string
     /**
      * Unique distinct name of Secret
      * @type {string}
      * @memberof Secret
      */
-    'name': string;
+    name: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof Secret
      */
-    'username'?: string;
+    username?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof Secret
      */
-    'password'?: string;
+    password?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof Secret
      */
-    'token'?: string;
+    token?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof Secret
      */
-    'tokenHeader'?: string;
+    tokenHeader?: string
     /**
-     * 
+     *
      * @type {string}
      * @memberof Secret
      */
-    'caCertPem'?: string;
+    caCertPem?: string
     /**
      * Description of this Secret
      * @type {string}
      * @memberof Secret
      */
-    'description': string;
+    description: string
 }
 /**
  * Lightweight reference for an existing Secret
@@ -1104,13 +1124,13 @@ export interface SecretRef {
      * @type {string}
      * @memberof SecretRef
      */
-    'secretId': string;
+    secretId: string
     /**
      * Distinct name of the referenced Secret
      * @type {string}
      * @memberof SecretRef
      */
-    'name': string;
+    name: string
 }
 /**
  * Represents a Service or API definition as registred into Microcks repository
@@ -1123,49 +1143,49 @@ export interface Service {
      * @type {string}
      * @memberof Service
      */
-    'id'?: string;
+    id?: string
     /**
      * Distinct name for this Service or API (maybe shared among many versions)
      * @type {string}
      * @memberof Service
      */
-    'name': string;
+    name: string
     /**
      * Distinct version for a named Service or API
      * @type {string}
      * @memberof Service
      */
-    'version': string;
+    version: string
     /**
      * Service or API Type
      * @type {string}
      * @memberof Service
      */
-    'type': ServiceTypeEnum;
+    type: ServiceTypeEnum
     /**
      * Set of Operations for Service or API
      * @type {Array<Operation>}
      * @memberof Service
      */
-    'operations'?: Array<Operation>;
+    operations?: Array<Operation>
     /**
      * Associated Xml Namespace in case of Xml based Service
      * @type {string}
      * @memberof Service
      */
-    'xmlNS'?: string;
+    xmlNS?: string
     /**
-     * 
+     *
      * @type {Metadata}
      * @memberof Service
      */
-    'metadata'?: Metadata;
+    metadata?: Metadata
     /**
      * Short name of the main/primary artifact this service was created from
      * @type {string}
      * @memberof Service
      */
-    'sourceArtifact': string;
+    sourceArtifact: string
 }
 
 export const ServiceTypeEnum = {
@@ -1175,10 +1195,11 @@ export const ServiceTypeEnum = {
     GenericEvent: 'GENERIC_EVENT',
     Event: 'EVENT',
     Grpc: 'GRPC',
-    Graphql: 'GRAPHQL'
-} as const;
+    Graphql: 'GRAPHQL',
+} as const
 
-export type ServiceTypeEnum = typeof ServiceTypeEnum[keyof typeof ServiceTypeEnum];
+export type ServiceTypeEnum =
+    (typeof ServiceTypeEnum)[keyof typeof ServiceTypeEnum]
 
 /**
  * Lightweight reference of an existing Service
@@ -1191,19 +1212,19 @@ export interface ServiceRef {
      * @type {string}
      * @memberof ServiceRef
      */
-    'serviceId': string;
+    serviceId: string
     /**
      * The Service name
      * @type {string}
      * @memberof ServiceRef
      */
-    'name': string;
+    name: string
     /**
      * The Service version
      * @type {string}
      * @memberof ServiceRef
      */
-    'version': string;
+    version: string
 }
 /**
  * Aggregate bean for grouping a Service an its messages pairs
@@ -1212,17 +1233,17 @@ export interface ServiceRef {
  */
 export interface ServiceView {
     /**
-     * 
+     *
      * @type {Service}
      * @memberof ServiceView
      */
-    'service': Service;
+    service: Service
     /**
      * Map of messages for this Service. Keys are operation name, values are array of messages for this operation
      * @type {{ [key: string]: Array<Exchange>; }}
      * @memberof ServiceView
      */
-    'messagesMap': { [key: string]: Array<Exchange>; };
+    messagesMap: { [key: string]: Array<Exchange> }
 }
 /**
  * Companion objects for TestResult. Each TestCaseResult correspond to a particuliar service operation / action reference by the operationName field. TestCaseResults owns a collection of TestStepResults (one for every request associated to service operation / action).
@@ -1235,28 +1256,28 @@ export interface TestCaseResult {
      * @type {boolean}
      * @memberof TestCaseResult
      */
-    'success': boolean;
+    success: boolean
     /**
      * Elapsed time in milliseconds since the test case beginning
      * @type {number}
      * @memberof TestCaseResult
      */
-    'elapsedTime': number;
+    elapsedTime: number
     /**
      * Name of operation this test case is bound to
      * @type {string}
      * @memberof TestCaseResult
      */
-    'operationName': string;
+    operationName: string
     /**
      * Test steps associated to this test case
      * @type {Array<TestStepResult>}
      * @memberof TestCaseResult
      */
-    'testStepResults'?: Array<TestStepResult>;
+    testStepResults?: Array<TestStepResult>
 }
 /**
- * 
+ *
  * @export
  * @interface TestCaseReturnDTO
  */
@@ -1266,7 +1287,7 @@ export interface TestCaseReturnDTO {
      * @type {string}
      * @memberof TestCaseReturnDTO
      */
-    'operationName': string;
+    operationName: string
 }
 /**
  * Represents the test conformance metrics (current score, history and evolution trend) of a Service
@@ -1279,51 +1300,50 @@ export interface TestConformanceMetric {
      * @type {string}
      * @memberof TestConformanceMetric
      */
-    'id': string;
+    id: string
     /**
      * Unique identifier of the Service this metric is related to
      * @type {string}
      * @memberof TestConformanceMetric
      */
-    'serviceId': string;
+    serviceId: string
     /**
      * Value of the label used for metrics aggregation (if any)
      * @type {string}
      * @memberof TestConformanceMetric
      */
-    'aggregationLabelValue'?: string;
+    aggregationLabelValue?: string
     /**
      * Maximum conformance score that can be reached (depends on samples expresiveness)
      * @type {number}
      * @memberof TestConformanceMetric
      */
-    'maxPossibleScore': number;
+    maxPossibleScore: number
     /**
      * Current test conformance score for the related Service
      * @type {number}
      * @memberof TestConformanceMetric
      */
-    'currentScore': number;
+    currentScore: number
     /**
      * The day of latest score update (in yyyyMMdd format)
      * @type {string}
      * @memberof TestConformanceMetric
      */
-    'lastUpdateDay'?: string;
+    lastUpdateDay?: string
     /**
-     * 
+     *
      * @type {Trend}
      * @memberof TestConformanceMetric
      */
-    'latestTrend'?: Trend;
+    latestTrend?: Trend
     /**
      * History of latest scores (key is date with format yyyyMMdd, value is score as double)
      * @type {{ [key: string]: number; }}
      * @memberof TestConformanceMetric
      */
-    'latestScores'?: { [key: string]: number; };
+    latestScores?: { [key: string]: number }
 }
-
 
 /**
  * Test request is a minimalist wrapper for requesting the launch of a new test
@@ -1336,51 +1356,50 @@ export interface TestRequest {
      * @type {string}
      * @memberof TestRequest
      */
-    'serviceId': string;
+    serviceId: string
     /**
      * Endpoint to test for this service
      * @type {string}
      * @memberof TestRequest
      */
-    'testEndpoint': string;
+    testEndpoint: string
     /**
-     * 
+     *
      * @type {TestRunnerType}
      * @memberof TestRequest
      */
-    'runnerType': TestRunnerType;
+    runnerType: TestRunnerType
     /**
      * The maximum time (in milliseconds) to wait for this test ends
      * @type {number}
      * @memberof TestRequest
      */
-    'timeout': number;
+    timeout: number
     /**
      * A restriction on service operations to test
      * @type {Array<string>}
      * @memberof TestRequest
      */
-    'filteredOperations'?: Array<string>;
+    filteredOperations?: Array<string>
     /**
      * The name of Secret to use for connecting the test endpoint
      * @type {string}
      * @memberof TestRequest
      */
-    'secretName'?: string;
+    secretName?: string
     /**
-     * 
+     *
      * @type {OAuth2ClientContent}
      * @memberof TestRequest
      */
-    'oAuth2Context'?: OAuth2ClientContent;
+    oAuth2Context?: OAuth2ClientContent
     /**
      * Specification of additional headers for a Service/API operations. Keys are operation name or \"globals\" (if header applies to all), values are Header objects DTO.
      * @type {{ [key: string]: Array<HeaderDTO>; }}
      * @memberof TestRequest
      */
-    'operationsHeaders'?: { [key: string]: Array<HeaderDTO>; };
+    operationsHeaders?: { [key: string]: Array<HeaderDTO> }
 }
-
 
 /**
  * Represents the result of a Service or API test run by Microcks. Tests are related to a service and made of multiple test cases corresponding to each operations / actions composing service. Tests are run against a specific endpoint named testedEndpoint. It holds global markers telling if test still ran, is a success, how many times is has taken and so on ...
@@ -1393,96 +1412,95 @@ export interface TestResult {
      * @type {string}
      * @memberof TestResult
      */
-    'id': string;
+    id: string
     /**
      * Revision number of this test
      * @type {number}
      * @memberof TestResult
      */
-    'version': number;
+    version: number
     /**
      * Incremental number for tracking number of tests of a service
      * @type {number}
      * @memberof TestResult
      */
-    'testNumber': number;
+    testNumber: number
     /**
      * Timestamp of creation date of this service
      * @type {number}
      * @memberof TestResult
      */
-    'testDate': number;
+    testDate: number
     /**
      * Endpoint used during test
      * @type {string}
      * @memberof TestResult
      */
-    'testedEndpoint': string;
+    testedEndpoint: string
     /**
      * Unique identifier of service tested
      * @type {string}
      * @memberof TestResult
      */
-    'serviceId': string;
+    serviceId: string
     /**
      * Elapsed time in milliseconds since test beginning
      * @type {number}
      * @memberof TestResult
      */
-    'elapsedTime'?: number;
+    elapsedTime?: number
     /**
      * Flag telling if test is a success
      * @type {boolean}
      * @memberof TestResult
      */
-    'success': boolean;
+    success: boolean
     /**
      * Flag telling is test is still in progress
      * @type {boolean}
      * @memberof TestResult
      */
-    'inProgress': boolean;
+    inProgress: boolean
     /**
-     * 
+     *
      * @type {TestRunnerType}
      * @memberof TestResult
      */
-    'runnerType': TestRunnerType;
+    runnerType: TestRunnerType
     /**
      * TestCase results associated to this test
      * @type {Array<TestCaseResult>}
      * @memberof TestResult
      */
-    'testCaseResults'?: Array<TestCaseResult>;
+    testCaseResults?: Array<TestCaseResult>
     /**
-     * 
+     *
      * @type {SecretRef}
      * @memberof TestResult
      */
-    'secretRef'?: SecretRef;
+    secretRef?: SecretRef
     /**
      * Specification of additional headers for a Service/API operations. Keys are operation name or \"globals\" (if header applies to all), values are Header objects DTO.
      * @type {{ [key: string]: Array<HeaderDTO>; }}
      * @memberof TestResult
      */
-    'operationHeaders'?: { [key: string]: Array<HeaderDTO>; };
+    operationHeaders?: { [key: string]: Array<HeaderDTO> }
     /**
      * The maximum time (in milliseconds) to wait for this test ends
      * @type {number}
      * @memberof TestResult
      */
-    'timeout'?: number;
+    timeout?: number
     /**
-     * 
+     *
      * @type {OAuth2AuthorizedClient}
      * @memberof TestResult
      */
-    'authorizedClient'?: OAuth2AuthorizedClient;
+    authorizedClient?: OAuth2AuthorizedClient
 }
 
-
 /**
- * Represents the summary result of a Service or API test run by Microcks. 
+ * Represents the summary result of a Service or API test run by Microcks.
  * @export
  * @interface TestResultSummary
  */
@@ -1492,25 +1510,25 @@ export interface TestResultSummary {
      * @type {string}
      * @memberof TestResultSummary
      */
-    'id': string;
+    id: string
     /**
      * Timestamp of creation date of this service
      * @type {number}
      * @memberof TestResultSummary
      */
-    'testDate': number;
+    testDate: number
     /**
      * Unique identifier of service tested
      * @type {string}
      * @memberof TestResultSummary
      */
-    'serviceId': string;
+    serviceId: string
     /**
      * Flag telling if test is a success
      * @type {boolean}
      * @memberof TestResultSummary
      */
-    'success': boolean;
+    success: boolean
 }
 /**
  * TestReturn is used for wrapping the return code of a test step execution
@@ -1523,37 +1541,37 @@ export interface TestReturn {
      * @type {number}
      * @memberof TestReturn
      */
-    'code': number;
+    code: number
     /**
      * Elapsed time in milliseconds
      * @type {number}
      * @memberof TestReturn
      */
-    'elapsedTime': number;
+    elapsedTime: number
     /**
      * Error message if any
      * @type {string}
      * @memberof TestReturn
      */
-    'message'?: string;
+    message?: string
     /**
-     * 
+     *
      * @type {Request}
      * @memberof TestReturn
      */
-    'request'?: Request;
+    request?: Request
     /**
-     * 
+     *
      * @type {Response}
      * @memberof TestReturn
      */
-    'response'?: Response;
+    response?: Response
     /**
-     * 
+     *
      * @type {EventMessage}
      * @memberof TestReturn
      */
-    'eventMessage'?: EventMessage;
+    eventMessage?: EventMessage
 }
 /**
  * Type of test strategy (different strategies are implemented by different runners)
@@ -1569,11 +1587,11 @@ export const TestRunnerType = {
     OpenApiSchema: 'OPEN_API_SCHEMA',
     AsyncApiSchema: 'ASYNC_API_SCHEMA',
     GrpcProtobuf: 'GRPC_PROTOBUF',
-    GraphqlSchema: 'GRAPHQL_SCHEMA'
-} as const;
+    GraphqlSchema: 'GRAPHQL_SCHEMA',
+} as const
 
-export type TestRunnerType = typeof TestRunnerType[keyof typeof TestRunnerType];
-
+export type TestRunnerType =
+    (typeof TestRunnerType)[keyof typeof TestRunnerType]
 
 /**
  * TestStepResult is an entity embedded within TestCaseResult. They are created for each request associated with an operation / action of a microservice.
@@ -1586,31 +1604,31 @@ export interface TestStepResult {
      * @type {boolean}
      * @memberof TestStepResult
      */
-    'success': boolean;
+    success: boolean
     /**
      * Elapsed time in milliseconds since the test step beginning
      * @type {number}
      * @memberof TestStepResult
      */
-    'elapsedTime'?: number;
+    elapsedTime?: number
     /**
      * Name of request this test step is bound to
      * @type {string}
      * @memberof TestStepResult
      */
-    'requestName'?: string;
+    requestName?: string
     /**
      * Error message that may be associated to this test step
      * @type {string}
      * @memberof TestStepResult
      */
-    'message'?: string;
+    message?: string
     /**
      * Name of event this test step is bound to
      * @type {string}
      * @memberof TestStepResult
      */
-    'eventMessageName'?: string;
+    eventMessageName?: string
 }
 /**
  * Evolution trend qualifier
@@ -1623,11 +1641,10 @@ export const Trend = {
     LowDown: 'LOW_DOWN',
     Stable: 'STABLE',
     LowUp: 'LOW_UP',
-    Up: 'UP'
-} as const;
+    Up: 'UP',
+} as const
 
-export type Trend = typeof Trend[keyof typeof Trend];
-
+export type Trend = (typeof Trend)[keyof typeof Trend]
 
 /**
  * Representation of an unidirectional exchange as an event message
@@ -1640,21 +1657,22 @@ export interface UnidirectionalEvent {
      * @type {string}
      * @memberof UnidirectionalEvent
      */
-    'type': UnidirectionalEventTypeEnum;
+    type: UnidirectionalEventTypeEnum
     /**
-     * 
+     *
      * @type {EventMessage}
      * @memberof UnidirectionalEvent
      */
-    'eventMessage': EventMessage;
+    eventMessage: EventMessage
 }
 
 export const UnidirectionalEventTypeEnum = {
     ReqRespPair: 'reqRespPair',
-    UnidirEvent: 'unidirEvent'
-} as const;
+    UnidirEvent: 'unidirEvent',
+} as const
 
-export type UnidirectionalEventTypeEnum = typeof UnidirectionalEventTypeEnum[keyof typeof UnidirectionalEventTypeEnum];
+export type UnidirectionalEventTypeEnum =
+    (typeof UnidirectionalEventTypeEnum)[keyof typeof UnidirectionalEventTypeEnum]
 
 /**
  * Value of a metric with an associated weight
@@ -1667,64 +1685,85 @@ export interface WeightedMetricValue {
      * @type {string}
      * @memberof WeightedMetricValue
      */
-    'name': string;
+    name: string
     /**
      * Weight of this metric value (typically a percentage)
      * @type {number}
      * @memberof WeightedMetricValue
      */
-    'weight': number;
+    weight: number
     /**
      * The value of this metric
      * @type {number}
      * @memberof WeightedMetricValue
      */
-    'value': number;
+    value: number
 }
 
 /**
  * ConfigApi - axios parameter creator
  * @export
  */
-export const ConfigApiAxiosParamCreator = function (configuration?: Configuration) {
+export const ConfigApiAxiosParamCreator = function (
+    configuration?: Configuration
+) {
     return {
         /**
-         * 
+         *
          * @summary Create a new Secret
-         * @param {Secret} [secret] 
+         * @param {Secret} [secret]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createSecret: async (secret?: Secret, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/secrets`;
+        createSecret: async (
+            secret?: Secret,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/secrets`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin'],
+                configuration
+            )
 
+            localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(secret, localVarRequestOptions, configuration)
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = serializeDataIfNeeded(
+                secret,
+                localVarRequestOptions,
+                configuration
+            )
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Delete a Secret
@@ -1733,104 +1772,149 @@ export const ConfigApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSecret: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteSecret: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteSecret', 'id', id)
-            const localVarPath = `/secrets/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/secrets/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'DELETE',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get features configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeaturesConfiguration: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/features/config`;
+        getFeaturesConfiguration: async (
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/features/config`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get authentification configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getKeycloakConfig: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/keycloak/config`;
+        getKeycloakConfig: async (
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/keycloak/config`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Retrieve a Secret
@@ -1839,114 +1923,161 @@ export const ConfigApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSecret: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getSecret: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getSecret', 'id', id)
-            const localVarPath = `/secrets/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/secrets/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get Secrets
          * @param {number} [page] Page of Secrets to retrieve (starts at and defaults to 0)
          * @param {number} [size] Size of a page. Maximum number of Secrets to include in a response (defaults to 20)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSecrets: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/secrets`;
+        getSecrets: async (
+            page?: number,
+            size?: number,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/secrets`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
             if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
+                localVarQueryParameter['page'] = page
             }
 
             if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
+                localVarQueryParameter['size'] = size
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get the Secrets counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSecretsCounter: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/secrets/count`;
+        getSecretsCounter: async (
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/secrets/count`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Update a Secret
@@ -1955,59 +2086,91 @@ export const ConfigApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateSecret: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateSecret: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateSecret', 'id', id)
-            const localVarPath = `/secrets/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/secrets/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
     }
-};
+}
 
 /**
  * ConfigApi - functional programming interface
  * @export
  */
-export const ConfigApiFp = function(configuration?: Configuration) {
+export const ConfigApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = ConfigApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create a new Secret
-         * @param {Secret} [secret] 
+         * @param {Secret} [secret]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createSecret(secret?: Secret, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Secret>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createSecret(secret, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.createSecret']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async createSecret(
+            secret?: Secret,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Secret>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.createSecret(secret, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.createSecret']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Delete a Secret
@@ -2016,35 +2179,83 @@ export const ConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteSecret(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSecret(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.deleteSecret']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async deleteSecret(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.deleteSecret(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.deleteSecret']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get features configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFeaturesConfiguration(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeaturesConfiguration(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.getFeaturesConfiguration']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getFeaturesConfiguration(
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getFeaturesConfiguration(
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.getFeaturesConfiguration']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get authentification configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getKeycloakConfig(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KeycloakConfig>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getKeycloakConfig(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.getKeycloakConfig']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getKeycloakConfig(
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<KeycloakConfig>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getKeycloakConfig(options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.getKeycloakConfig']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Retrieve a Secret
@@ -2053,37 +2264,87 @@ export const ConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSecret(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Secret>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSecret(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.getSecret']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getSecret(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Secret>
+        > {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSecret(
+                id,
+                options
+            )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.getSecret']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get Secrets
          * @param {number} [page] Page of Secrets to retrieve (starts at and defaults to 0)
          * @param {number} [size] Size of a page. Maximum number of Secrets to include in a response (defaults to 20)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSecrets(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Secret>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSecrets(page, size, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.getSecrets']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getSecrets(
+            page?: number,
+            size?: number,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<Secret>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getSecrets(page, size, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.getSecrets']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get the Secrets counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSecretsCounter(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSecretsCounter(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.getSecretsCounter']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getSecretsCounter(
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getSecretsCounter(options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.getSecretsCounter']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Update a Secret
@@ -2092,31 +2353,55 @@ export const ConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateSecret(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateSecret(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConfigApi.updateSecret']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async updateSecret(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.updateSecret(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['ConfigApi.updateSecret']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
     }
-};
+}
 
 /**
  * ConfigApi - factory interface
  * @export
  */
-export const ConfigApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const ConfigApiFactory = function (
+    configuration?: Configuration,
+    basePath?: string,
+    axios?: AxiosInstance
+) {
     const localVarFp = ConfigApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create a new Secret
-         * @param {Secret} [secret] 
+         * @param {Secret} [secret]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createSecret(secret?: Secret, options?: RawAxiosRequestConfig): AxiosPromise<Secret> {
-            return localVarFp.createSecret(secret, options).then((request) => request(axios, basePath));
+        createSecret(
+            secret?: Secret,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Secret> {
+            return localVarFp
+                .createSecret(secret, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Delete a Secret
@@ -2125,26 +2410,39 @@ export const ConfigApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSecret(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteSecret(id, options).then((request) => request(axios, basePath));
+        deleteSecret(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .deleteSecret(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get features configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeaturesConfiguration(options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.getFeaturesConfiguration(options).then((request) => request(axios, basePath));
+        getFeaturesConfiguration(
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .getFeaturesConfiguration(options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get authentification configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getKeycloakConfig(options?: RawAxiosRequestConfig): AxiosPromise<KeycloakConfig> {
-            return localVarFp.getKeycloakConfig(options).then((request) => request(axios, basePath));
+        getKeycloakConfig(
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<KeycloakConfig> {
+            return localVarFp
+                .getKeycloakConfig(options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Retrieve a Secret
@@ -2153,28 +2451,43 @@ export const ConfigApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSecret(id: string, options?: RawAxiosRequestConfig): AxiosPromise<Secret> {
-            return localVarFp.getSecret(id, options).then((request) => request(axios, basePath));
+        getSecret(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Secret> {
+            return localVarFp
+                .getSecret(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get Secrets
          * @param {number} [page] Page of Secrets to retrieve (starts at and defaults to 0)
          * @param {number} [size] Size of a page. Maximum number of Secrets to include in a response (defaults to 20)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSecrets(page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Secret>> {
-            return localVarFp.getSecrets(page, size, options).then((request) => request(axios, basePath));
+        getSecrets(
+            page?: number,
+            size?: number,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<Secret>> {
+            return localVarFp
+                .getSecrets(page, size, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get the Secrets counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSecretsCounter(options?: RawAxiosRequestConfig): AxiosPromise<Counter> {
-            return localVarFp.getSecretsCounter(options).then((request) => request(axios, basePath));
+        getSecretsCounter(
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Counter> {
+            return localVarFp
+                .getSecretsCounter(options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Update a Secret
@@ -2183,11 +2496,16 @@ export const ConfigApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateSecret(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateSecret(id, options).then((request) => request(axios, basePath));
+        updateSecret(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .updateSecret(id, options)
+                .then((request) => request(axios, basePath))
         },
-    };
-};
+    }
+}
 
 /**
  * ConfigApi - object-oriented interface
@@ -2197,15 +2515,17 @@ export const ConfigApiFactory = function (configuration?: Configuration, basePat
  */
 export class ConfigApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Create a new Secret
-     * @param {Secret} [secret] 
+     * @param {Secret} [secret]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConfigApi
      */
     public createSecret(secret?: Secret, options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).createSecret(secret, options).then((request) => request(this.axios, this.basePath));
+        return ConfigApiFp(this.configuration)
+            .createSecret(secret, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -2217,29 +2537,35 @@ export class ConfigApi extends BaseAPI {
      * @memberof ConfigApi
      */
     public deleteSecret(id: string, options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).deleteSecret(id, options).then((request) => request(this.axios, this.basePath));
+        return ConfigApiFp(this.configuration)
+            .deleteSecret(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get features configuration
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConfigApi
      */
     public getFeaturesConfiguration(options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).getFeaturesConfiguration(options).then((request) => request(this.axios, this.basePath));
+        return ConfigApiFp(this.configuration)
+            .getFeaturesConfiguration(options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get authentification configuration
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConfigApi
      */
     public getKeycloakConfig(options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).getKeycloakConfig(options).then((request) => request(this.axios, this.basePath));
+        return ConfigApiFp(this.configuration)
+            .getKeycloakConfig(options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -2251,11 +2577,13 @@ export class ConfigApi extends BaseAPI {
      * @memberof ConfigApi
      */
     public getSecret(id: string, options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).getSecret(id, options).then((request) => request(this.axios, this.basePath));
+        return ConfigApiFp(this.configuration)
+            .getSecret(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get Secrets
      * @param {number} [page] Page of Secrets to retrieve (starts at and defaults to 0)
      * @param {number} [size] Size of a page. Maximum number of Secrets to include in a response (defaults to 20)
@@ -2263,19 +2591,27 @@ export class ConfigApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ConfigApi
      */
-    public getSecrets(page?: number, size?: number, options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).getSecrets(page, size, options).then((request) => request(this.axios, this.basePath));
+    public getSecrets(
+        page?: number,
+        size?: number,
+        options?: RawAxiosRequestConfig
+    ) {
+        return ConfigApiFp(this.configuration)
+            .getSecrets(page, size, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get the Secrets counter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConfigApi
      */
     public getSecretsCounter(options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).getSecretsCounter(options).then((request) => request(this.axios, this.basePath));
+        return ConfigApiFp(this.configuration)
+            .getSecretsCounter(options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -2287,162 +2623,248 @@ export class ConfigApi extends BaseAPI {
      * @memberof ConfigApi
      */
     public updateSecret(id: string, options?: RawAxiosRequestConfig) {
-        return ConfigApiFp(this.configuration).updateSecret(id, options).then((request) => request(this.axios, this.basePath));
+        return ConfigApiFp(this.configuration)
+            .updateSecret(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 }
-
-
 
 /**
  * DefaultApi - axios parameter creator
  * @export
  */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+export const DefaultApiAxiosParamCreator = function (
+    configuration?: Configuration
+) {
     return {
         /**
-         * 
+         *
          * @summary Get Resource
          * @param {string} name Unique name/business identifier of the Service or API resource
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResource: async (name: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getResource: async (
+            name: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'name' is not null or undefined
             assertParamExists('getResource', 'name', name)
-            const localVarPath = `/resources/{name}`
-                .replace(`{${"name"}}`, encodeURIComponent(String(name)));
+            const localVarPath = `/resources/{name}`.replace(
+                `{${'name'}}`,
+                encodeURIComponent(String(name))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get Resources by Service
          * @param {string} serviceId Unique identifier of the Service or API the resources are attached to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResourcesByService: async (serviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getResourcesByService: async (
+            serviceId: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'serviceId' is not null or undefined
             assertParamExists('getResourcesByService', 'serviceId', serviceId)
-            const localVarPath = `/resources/service/{serviceId}`
-                .replace(`{${"serviceId"}}`, encodeURIComponent(String(serviceId)));
+            const localVarPath = `/resources/service/{serviceId}`.replace(
+                `{${'serviceId'}}`,
+                encodeURIComponent(String(serviceId))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
     }
-};
+}
 
 /**
  * DefaultApi - functional programming interface
  * @export
  */
-export const DefaultApiFp = function(configuration?: Configuration) {
+export const DefaultApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get Resource
          * @param {string} name Unique name/business identifier of the Service or API resource
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getResource(name: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Resource>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getResource(name, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.getResource']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getResource(
+            name: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Resource>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getResource(name, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['DefaultApi.getResource']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get Resources by Service
          * @param {string} serviceId Unique identifier of the Service or API the resources are attached to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getResourcesByService(serviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Resource>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getResourcesByService(serviceId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.getResourcesByService']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getResourcesByService(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<Resource>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getResourcesByService(
+                    serviceId,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['DefaultApi.getResourcesByService']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
     }
-};
+}
 
 /**
  * DefaultApi - factory interface
  * @export
  */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const DefaultApiFactory = function (
+    configuration?: Configuration,
+    basePath?: string,
+    axios?: AxiosInstance
+) {
     const localVarFp = DefaultApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get Resource
          * @param {string} name Unique name/business identifier of the Service or API resource
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResource(name: string, options?: RawAxiosRequestConfig): AxiosPromise<Resource> {
-            return localVarFp.getResource(name, options).then((request) => request(axios, basePath));
+        getResource(
+            name: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Resource> {
+            return localVarFp
+                .getResource(name, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get Resources by Service
          * @param {string} serviceId Unique identifier of the Service or API the resources are attached to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResourcesByService(serviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<Resource>> {
-            return localVarFp.getResourcesByService(serviceId, options).then((request) => request(axios, basePath));
+        getResourcesByService(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<Resource>> {
+            return localVarFp
+                .getResourcesByService(serviceId, options)
+                .then((request) => request(axios, basePath))
         },
-    };
-};
+    }
+}
 
 /**
  * DefaultApi - object-oriented interface
@@ -2452,7 +2874,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  */
 export class DefaultApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get Resource
      * @param {string} name Unique name/business identifier of the Service or API resource
      * @param {*} [options] Override http request option.
@@ -2460,29 +2882,36 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public getResource(name: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getResource(name, options).then((request) => request(this.axios, this.basePath));
+        return DefaultApiFp(this.configuration)
+            .getResource(name, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get Resources by Service
      * @param {string} serviceId Unique identifier of the Service or API the resources are attached to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public getResourcesByService(serviceId: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getResourcesByService(serviceId, options).then((request) => request(this.axios, this.basePath));
+    public getResourcesByService(
+        serviceId: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return DefaultApiFp(this.configuration)
+            .getResourcesByService(serviceId, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 }
-
-
 
 /**
  * JobApi - axios parameter creator
  * @export
  */
-export const JobApiAxiosParamCreator = function (configuration?: Configuration) {
+export const JobApiAxiosParamCreator = function (
+    configuration?: Configuration
+) {
     return {
         /**
          * Make an ImportJob active, so that it is executed
@@ -2491,76 +2920,112 @@ export const JobApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateImportJob: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        activateImportJob: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('activateImportJob', 'id', id)
-            const localVarPath = `/jobs/{id}/activate`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/jobs/{id}/activate`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["manager", "admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['manager', 'admin'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Create a new ImportJob
          * @summary Create ImportJob
-         * @param {ImportJob} importJob 
+         * @param {ImportJob} importJob
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createImportJob: async (importJob: ImportJob, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createImportJob: async (
+            importJob: ImportJob,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'importJob' is not null or undefined
             assertParamExists('createImportJob', 'importJob', importJob)
-            const localVarPath = `/jobs`;
+            const localVarPath = `/jobs`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
+            localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(importJob, localVarRequestOptions, configuration)
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = serializeDataIfNeeded(
+                importJob,
+                localVarRequestOptions,
+                configuration
+            )
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Delete an ImportJob
@@ -2569,70 +3034,101 @@ export const JobApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteImportJob: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteImportJob: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteImportJob', 'id', id)
-            const localVarPath = `/jobs/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/jobs/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'DELETE',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get the ImportJobs counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getImportJobCounter: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/jobs/count`;
+        getImportJobCounter: async (
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/jobs/count`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Retrieve a list of ImportJobs
@@ -2643,45 +3139,62 @@ export const JobApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getImportJobs: async (page?: number, size?: number, name?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/jobs`;
+        getImportJobs: async (
+            page?: number,
+            size?: number,
+            name?: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/jobs`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
             if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
+                localVarQueryParameter['page'] = page
             }
 
             if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
+                localVarQueryParameter['size'] = size
             }
 
             if (name !== undefined) {
-                localVarQueryParameter['name'] = name;
+                localVarQueryParameter['name'] = name
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Retrieve an ImportJob using its identifier
@@ -2690,80 +3203,119 @@ export const JobApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        jobsIdGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        jobsIdGet: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('jobsIdGet', 'id', id)
-            const localVarPath = `/jobs/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/jobs/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Update an ImportJob
          * @summary Update ImportJob
          * @param {string} id Unique identifier of ImportJob to manage
-         * @param {ImportJob} importJob 
+         * @param {ImportJob} importJob
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        jobsIdPost: async (id: string, importJob: ImportJob, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        jobsIdPost: async (
+            id: string,
+            importJob: ImportJob,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('jobsIdPost', 'id', id)
             // verify required parameter 'importJob' is not null or undefined
             assertParamExists('jobsIdPost', 'importJob', importJob)
-            const localVarPath = `/jobs/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/jobs/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
+            localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(importJob, localVarRequestOptions, configuration)
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = serializeDataIfNeeded(
+                importJob,
+                localVarRequestOptions,
+                configuration
+            )
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Starting an ImportJob forces it to immediatly import mock definitions
@@ -2772,36 +3324,53 @@ export const JobApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        startImportJob: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        startImportJob: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('startImportJob', 'id', id)
-            const localVarPath = `/jobs/{id}/start`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/jobs/{id}/start`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["manager", "admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['manager', 'admin'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Stopping an ImportJob desactivate it, so that it won\'t execute at next schedule
@@ -2810,36 +3379,53 @@ export const JobApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        stopImportJob: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        stopImportJob: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('stopImportJob', 'id', id)
-            const localVarPath = `/jobs/{id}/stop`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/jobs/{id}/stop`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["manager", "admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['manager', 'admin'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Uploads an artifact to be imported by Microcks.
@@ -2849,58 +3435,76 @@ export const JobApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadArtifact: async (mainArtifact: boolean, file: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadArtifact: async (
+            mainArtifact: boolean,
+            file: File,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'mainArtifact' is not null or undefined
             assertParamExists('uploadArtifact', 'mainArtifact', mainArtifact)
             // verify required parameter 'file' is not null or undefined
             assertParamExists('uploadArtifact', 'file', file)
-            const localVarPath = `/artifact/upload`;
+            const localVarPath = `/artifact/upload`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
+            const localVarFormParams = new ((configuration &&
+                configuration.formDataCtor) ||
+                FormData)()
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
             if (mainArtifact !== undefined) {
-                localVarQueryParameter['mainArtifact'] = mainArtifact;
+                localVarQueryParameter['mainArtifact'] = mainArtifact
             }
 
-
-            if (file !== undefined) { 
-                localVarFormParams.append('file', file as any);
+            if (file !== undefined) {
+                localVarFormParams.append('file', file as any)
             }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams;
+
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data'
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = localVarFormParams
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
     }
-};
+}
 
 /**
  * JobApi - functional programming interface
  * @export
  */
-export const JobApiFp = function(configuration?: Configuration) {
+export const JobApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = JobApiAxiosParamCreator(configuration)
     return {
         /**
@@ -2910,24 +3514,63 @@ export const JobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async activateImportJob(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportJob>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.activateImportJob(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.activateImportJob']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async activateImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<ImportJob>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.activateImportJob(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.activateImportJob']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Create a new ImportJob
          * @summary Create ImportJob
-         * @param {ImportJob} importJob 
+         * @param {ImportJob} importJob
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createImportJob(importJob: ImportJob, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportJob>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createImportJob(importJob, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.createImportJob']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async createImportJob(
+            importJob: ImportJob,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<ImportJob>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.createImportJob(
+                    importJob,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.createImportJob']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Delete an ImportJob
@@ -2936,23 +3579,52 @@ export const JobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteImportJob(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteImportJob(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.deleteImportJob']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async deleteImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.deleteImportJob(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.deleteImportJob']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get the ImportJobs counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getImportJobCounter(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getImportJobCounter(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.getImportJobCounter']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getImportJobCounter(
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getImportJobCounter(options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.getImportJobCounter']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Retrieve a list of ImportJobs
@@ -2963,11 +3635,36 @@ export const JobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getImportJobs(page?: number, size?: number, name?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ImportJob>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getImportJobs(page, size, name, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.getImportJobs']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getImportJobs(
+            page?: number,
+            size?: number,
+            name?: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<ImportJob>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getImportJobs(
+                    page,
+                    size,
+                    name,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.getImportJobs']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Retrieve an ImportJob using its identifier
@@ -2976,25 +3673,68 @@ export const JobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async jobsIdGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportJob>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.jobsIdGet(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.jobsIdGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async jobsIdGet(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<ImportJob>
+        > {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.jobsIdGet(
+                id,
+                options
+            )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.jobsIdGet']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Update an ImportJob
          * @summary Update ImportJob
          * @param {string} id Unique identifier of ImportJob to manage
-         * @param {ImportJob} importJob 
+         * @param {ImportJob} importJob
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async jobsIdPost(id: string, importJob: ImportJob, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportJob>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.jobsIdPost(id, importJob, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.jobsIdPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async jobsIdPost(
+            id: string,
+            importJob: ImportJob,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<ImportJob>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.jobsIdPost(
+                    id,
+                    importJob,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.jobsIdPost']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Starting an ImportJob forces it to immediatly import mock definitions
@@ -3003,11 +3743,29 @@ export const JobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async startImportJob(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportJob>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.startImportJob(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.startImportJob']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async startImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<ImportJob>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.startImportJob(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.startImportJob']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Stopping an ImportJob desactivate it, so that it won\'t execute at next schedule
@@ -3016,11 +3774,29 @@ export const JobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async stopImportJob(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportJob>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.stopImportJob(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.stopImportJob']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async stopImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<ImportJob>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.stopImportJob(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.stopImportJob']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Uploads an artifact to be imported by Microcks.
@@ -3030,20 +3806,44 @@ export const JobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadArtifact(mainArtifact: boolean, file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadArtifact(mainArtifact, file, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['JobApi.uploadArtifact']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async uploadArtifact(
+            mainArtifact: boolean,
+            file: File,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.uploadArtifact(
+                    mainArtifact,
+                    file,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['JobApi.uploadArtifact']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
     }
-};
+}
 
 /**
  * JobApi - factory interface
  * @export
  */
-export const JobApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const JobApiFactory = function (
+    configuration?: Configuration,
+    basePath?: string,
+    axios?: AxiosInstance
+) {
     const localVarFp = JobApiFp(configuration)
     return {
         /**
@@ -3053,18 +3853,28 @@ export const JobApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateImportJob(id: string, options?: RawAxiosRequestConfig): AxiosPromise<ImportJob> {
-            return localVarFp.activateImportJob(id, options).then((request) => request(axios, basePath));
+        activateImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<ImportJob> {
+            return localVarFp
+                .activateImportJob(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Create a new ImportJob
          * @summary Create ImportJob
-         * @param {ImportJob} importJob 
+         * @param {ImportJob} importJob
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createImportJob(importJob: ImportJob, options?: RawAxiosRequestConfig): AxiosPromise<ImportJob> {
-            return localVarFp.createImportJob(importJob, options).then((request) => request(axios, basePath));
+        createImportJob(
+            importJob: ImportJob,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<ImportJob> {
+            return localVarFp
+                .createImportJob(importJob, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Delete an ImportJob
@@ -3073,17 +3883,26 @@ export const JobApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteImportJob(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteImportJob(id, options).then((request) => request(axios, basePath));
+        deleteImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .deleteImportJob(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get the ImportJobs counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getImportJobCounter(options?: RawAxiosRequestConfig): AxiosPromise<Counter> {
-            return localVarFp.getImportJobCounter(options).then((request) => request(axios, basePath));
+        getImportJobCounter(
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Counter> {
+            return localVarFp
+                .getImportJobCounter(options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Retrieve a list of ImportJobs
@@ -3094,8 +3913,15 @@ export const JobApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getImportJobs(page?: number, size?: number, name?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<ImportJob>> {
-            return localVarFp.getImportJobs(page, size, name, options).then((request) => request(axios, basePath));
+        getImportJobs(
+            page?: number,
+            size?: number,
+            name?: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<ImportJob>> {
+            return localVarFp
+                .getImportJobs(page, size, name, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Retrieve an ImportJob using its identifier
@@ -3104,19 +3930,30 @@ export const JobApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        jobsIdGet(id: string, options?: RawAxiosRequestConfig): AxiosPromise<ImportJob> {
-            return localVarFp.jobsIdGet(id, options).then((request) => request(axios, basePath));
+        jobsIdGet(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<ImportJob> {
+            return localVarFp
+                .jobsIdGet(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Update an ImportJob
          * @summary Update ImportJob
          * @param {string} id Unique identifier of ImportJob to manage
-         * @param {ImportJob} importJob 
+         * @param {ImportJob} importJob
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        jobsIdPost(id: string, importJob: ImportJob, options?: RawAxiosRequestConfig): AxiosPromise<ImportJob> {
-            return localVarFp.jobsIdPost(id, importJob, options).then((request) => request(axios, basePath));
+        jobsIdPost(
+            id: string,
+            importJob: ImportJob,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<ImportJob> {
+            return localVarFp
+                .jobsIdPost(id, importJob, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Starting an ImportJob forces it to immediatly import mock definitions
@@ -3125,8 +3962,13 @@ export const JobApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        startImportJob(id: string, options?: RawAxiosRequestConfig): AxiosPromise<ImportJob> {
-            return localVarFp.startImportJob(id, options).then((request) => request(axios, basePath));
+        startImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<ImportJob> {
+            return localVarFp
+                .startImportJob(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Stopping an ImportJob desactivate it, so that it won\'t execute at next schedule
@@ -3135,8 +3977,13 @@ export const JobApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        stopImportJob(id: string, options?: RawAxiosRequestConfig): AxiosPromise<ImportJob> {
-            return localVarFp.stopImportJob(id, options).then((request) => request(axios, basePath));
+        stopImportJob(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<ImportJob> {
+            return localVarFp
+                .stopImportJob(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Uploads an artifact to be imported by Microcks.
@@ -3146,11 +3993,17 @@ export const JobApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadArtifact(mainArtifact: boolean, file: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.uploadArtifact(mainArtifact, file, options).then((request) => request(axios, basePath));
+        uploadArtifact(
+            mainArtifact: boolean,
+            file: File,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<string> {
+            return localVarFp
+                .uploadArtifact(mainArtifact, file, options)
+                .then((request) => request(axios, basePath))
         },
-    };
-};
+    }
+}
 
 /**
  * JobApi - object-oriented interface
@@ -3168,19 +4021,26 @@ export class JobApi extends BaseAPI {
      * @memberof JobApi
      */
     public activateImportJob(id: string, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).activateImportJob(id, options).then((request) => request(this.axios, this.basePath));
+        return JobApiFp(this.configuration)
+            .activateImportJob(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
      * Create a new ImportJob
      * @summary Create ImportJob
-     * @param {ImportJob} importJob 
+     * @param {ImportJob} importJob
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof JobApi
      */
-    public createImportJob(importJob: ImportJob, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).createImportJob(importJob, options).then((request) => request(this.axios, this.basePath));
+    public createImportJob(
+        importJob: ImportJob,
+        options?: RawAxiosRequestConfig
+    ) {
+        return JobApiFp(this.configuration)
+            .createImportJob(importJob, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -3192,18 +4052,22 @@ export class JobApi extends BaseAPI {
      * @memberof JobApi
      */
     public deleteImportJob(id: string, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).deleteImportJob(id, options).then((request) => request(this.axios, this.basePath));
+        return JobApiFp(this.configuration)
+            .deleteImportJob(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get the ImportJobs counter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof JobApi
      */
     public getImportJobCounter(options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).getImportJobCounter(options).then((request) => request(this.axios, this.basePath));
+        return JobApiFp(this.configuration)
+            .getImportJobCounter(options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -3216,8 +4080,15 @@ export class JobApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof JobApi
      */
-    public getImportJobs(page?: number, size?: number, name?: string, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).getImportJobs(page, size, name, options).then((request) => request(this.axios, this.basePath));
+    public getImportJobs(
+        page?: number,
+        size?: number,
+        name?: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return JobApiFp(this.configuration)
+            .getImportJobs(page, size, name, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -3229,20 +4100,28 @@ export class JobApi extends BaseAPI {
      * @memberof JobApi
      */
     public jobsIdGet(id: string, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).jobsIdGet(id, options).then((request) => request(this.axios, this.basePath));
+        return JobApiFp(this.configuration)
+            .jobsIdGet(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
      * Update an ImportJob
      * @summary Update ImportJob
      * @param {string} id Unique identifier of ImportJob to manage
-     * @param {ImportJob} importJob 
+     * @param {ImportJob} importJob
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof JobApi
      */
-    public jobsIdPost(id: string, importJob: ImportJob, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).jobsIdPost(id, importJob, options).then((request) => request(this.axios, this.basePath));
+    public jobsIdPost(
+        id: string,
+        importJob: ImportJob,
+        options?: RawAxiosRequestConfig
+    ) {
+        return JobApiFp(this.configuration)
+            .jobsIdPost(id, importJob, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -3254,7 +4133,9 @@ export class JobApi extends BaseAPI {
      * @memberof JobApi
      */
     public startImportJob(id: string, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).startImportJob(id, options).then((request) => request(this.axios, this.basePath));
+        return JobApiFp(this.configuration)
+            .startImportJob(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -3266,7 +4147,9 @@ export class JobApi extends BaseAPI {
      * @memberof JobApi
      */
     public stopImportJob(id: string, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).stopImportJob(id, options).then((request) => request(this.axios, this.basePath));
+        return JobApiFp(this.configuration)
+            .stopImportJob(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -3278,94 +4161,129 @@ export class JobApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof JobApi
      */
-    public uploadArtifact(mainArtifact: boolean, file: File, options?: RawAxiosRequestConfig) {
-        return JobApiFp(this.configuration).uploadArtifact(mainArtifact, file, options).then((request) => request(this.axios, this.basePath));
+    public uploadArtifact(
+        mainArtifact: boolean,
+        file: File,
+        options?: RawAxiosRequestConfig
+    ) {
+        return JobApiFp(this.configuration)
+            .uploadArtifact(mainArtifact, file, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 }
-
-
 
 /**
  * MetricsApi - axios parameter creator
  * @export
  */
-export const MetricsApiAxiosParamCreator = function (configuration?: Configuration) {
+export const MetricsApiAxiosParamCreator = function (
+    configuration?: Configuration
+) {
     return {
         /**
-         * 
+         *
          * @summary Get aggregated invocation statistics for a day
          * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAggregatedInvocationsStats: async (day?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/metrics/invocations/global`;
+        getAggregatedInvocationsStats: async (
+            day?: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/metrics/invocations/global`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
             if (day !== undefined) {
-                localVarQueryParameter['day'] = day;
+                localVarQueryParameter['day'] = day
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get aggregation of conformance metrics
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getConformanceMetricsAggregation: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/metrics/conformance/aggregate`;
+        getConformanceMetricsAggregation: async (
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/metrics/conformance/aggregate`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get invocation statistics for Service
          * @param {string} serviceName Name of service to get statistics for
          * @param {string} serviceVersion Version of service to get statistics for
@@ -3373,241 +4291,381 @@ export const MetricsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInvocationStatsByService: async (serviceName: string, serviceVersion: string, day?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getInvocationStatsByService: async (
+            serviceName: string,
+            serviceVersion: string,
+            day?: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'serviceName' is not null or undefined
-            assertParamExists('getInvocationStatsByService', 'serviceName', serviceName)
+            assertParamExists(
+                'getInvocationStatsByService',
+                'serviceName',
+                serviceName
+            )
             // verify required parameter 'serviceVersion' is not null or undefined
-            assertParamExists('getInvocationStatsByService', 'serviceVersion', serviceVersion)
-            const localVarPath = `/metrics/invocations/{serviceName}/{serviceVersion}`
-                .replace(`{${"serviceName"}}`, encodeURIComponent(String(serviceName)))
-                .replace(`{${"serviceVersion"}}`, encodeURIComponent(String(serviceVersion)));
+            assertParamExists(
+                'getInvocationStatsByService',
+                'serviceVersion',
+                serviceVersion
+            )
+            const localVarPath =
+                `/metrics/invocations/{serviceName}/{serviceVersion}`
+                    .replace(
+                        `{${'serviceName'}}`,
+                        encodeURIComponent(String(serviceName))
+                    )
+                    .replace(
+                        `{${'serviceVersion'}}`,
+                        encodeURIComponent(String(serviceVersion))
+                    )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
             if (day !== undefined) {
-                localVarQueryParameter['day'] = day;
+                localVarQueryParameter['day'] = day
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get aggregated invocations statistics for latest days
          * @param {number} [limit] Number of days to get back in time. Default is 20.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLatestAggregatedInvocationsStats: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/metrics/invocations/global/latest`;
+        getLatestAggregatedInvocationsStats: async (
+            limit?: number,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/metrics/invocations/global/latest`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
             if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
+                localVarQueryParameter['limit'] = limit
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get latest tests results
          * @param {number} [limit] Number of days to consider for test results to return. Default is 7 (one week)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLatestTestResults: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/metrics/tests/latest`;
+        getLatestTestResults: async (
+            limit?: number,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/metrics/tests/latest`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
             if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
+                localVarQueryParameter['limit'] = limit
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get conformance metrics for a Service
          * @param {string} serviceId Unique Services identifier this metrics are related to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServiceTestConformanceMetric: async (serviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getServiceTestConformanceMetric: async (
+            serviceId: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'serviceId' is not null or undefined
-            assertParamExists('getServiceTestConformanceMetric', 'serviceId', serviceId)
-            const localVarPath = `/metrics/conformance/service/{serviceId}`
-                .replace(`{${"serviceId"}}`, encodeURIComponent(String(serviceId)));
+            assertParamExists(
+                'getServiceTestConformanceMetric',
+                'serviceId',
+                serviceId
+            )
+            const localVarPath =
+                `/metrics/conformance/service/{serviceId}`.replace(
+                    `{${'serviceId'}}`,
+                    encodeURIComponent(String(serviceId))
+                )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get top invocation statistics for a day
          * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
          * @param {number} [limit] The number of top invoked mocks to return
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTopIvnocationsStatsByDay: async (day?: string, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/metrics/invocations/top`;
+        getTopIvnocationsStatsByDay: async (
+            day?: string,
+            limit?: number,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/metrics/invocations/top`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
             if (day !== undefined) {
-                localVarQueryParameter['day'] = day;
+                localVarQueryParameter['day'] = day
             }
 
             if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
+                localVarQueryParameter['limit'] = limit
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
     }
-};
+}
 
 /**
  * MetricsApi - functional programming interface
  * @export
  */
-export const MetricsApiFp = function(configuration?: Configuration) {
+export const MetricsApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = MetricsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get aggregated invocation statistics for a day
          * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAggregatedInvocationsStats(day?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DailyInvocationStatistic>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAggregatedInvocationsStats(day, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MetricsApi.getAggregatedInvocationsStats']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getAggregatedInvocationsStats(
+            day?: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<DailyInvocationStatistic>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getAggregatedInvocationsStats(
+                    day,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap[
+                    'MetricsApi.getAggregatedInvocationsStats'
+                ]?.[localVarOperationServerIndex]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get aggregation of conformance metrics
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getConformanceMetricsAggregation(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<WeightedMetricValue>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getConformanceMetricsAggregation(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MetricsApi.getConformanceMetricsAggregation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getConformanceMetricsAggregation(
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<WeightedMetricValue>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getConformanceMetricsAggregation(
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap[
+                    'MetricsApi.getConformanceMetricsAggregation'
+                ]?.[localVarOperationServerIndex]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get invocation statistics for Service
          * @param {string} serviceName Name of service to get statistics for
          * @param {string} serviceVersion Version of service to get statistics for
@@ -3615,96 +4673,220 @@ export const MetricsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInvocationStatsByService(serviceName: string, serviceVersion: string, day?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DailyInvocationStatistic>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getInvocationStatsByService(serviceName, serviceVersion, day, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MetricsApi.getInvocationStatsByService']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getInvocationStatsByService(
+            serviceName: string,
+            serviceVersion: string,
+            day?: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<DailyInvocationStatistic>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getInvocationStatsByService(
+                    serviceName,
+                    serviceVersion,
+                    day,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MetricsApi.getInvocationStatsByService']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get aggregated invocations statistics for latest days
          * @param {number} [limit] Number of days to get back in time. Default is 20.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getLatestAggregatedInvocationsStats(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getLatestAggregatedInvocationsStats(limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MetricsApi.getLatestAggregatedInvocationsStats']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getLatestAggregatedInvocationsStats(
+            limit?: number,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<{ [key: string]: number }>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getLatestAggregatedInvocationsStats(
+                    limit,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap[
+                    'MetricsApi.getLatestAggregatedInvocationsStats'
+                ]?.[localVarOperationServerIndex]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get latest tests results
          * @param {number} [limit] Number of days to consider for test results to return. Default is 7 (one week)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getLatestTestResults(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TestResultSummary>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getLatestTestResults(limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MetricsApi.getLatestTestResults']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getLatestTestResults(
+            limit?: number,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<TestResultSummary>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getLatestTestResults(
+                    limit,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MetricsApi.getLatestTestResults']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get conformance metrics for a Service
          * @param {string} serviceId Unique Services identifier this metrics are related to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getServiceTestConformanceMetric(serviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestConformanceMetric>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getServiceTestConformanceMetric(serviceId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MetricsApi.getServiceTestConformanceMetric']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getServiceTestConformanceMetric(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<TestConformanceMetric>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getServiceTestConformanceMetric(
+                    serviceId,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap[
+                    'MetricsApi.getServiceTestConformanceMetric'
+                ]?.[localVarOperationServerIndex]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get top invocation statistics for a day
          * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
          * @param {number} [limit] The number of top invoked mocks to return
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTopIvnocationsStatsByDay(day?: string, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DailyInvocationStatistic>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTopIvnocationsStatsByDay(day, limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MetricsApi.getTopIvnocationsStatsByDay']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getTopIvnocationsStatsByDay(
+            day?: string,
+            limit?: number,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<DailyInvocationStatistic>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getTopIvnocationsStatsByDay(
+                    day,
+                    limit,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MetricsApi.getTopIvnocationsStatsByDay']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
     }
-};
+}
 
 /**
  * MetricsApi - factory interface
  * @export
  */
-export const MetricsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const MetricsApiFactory = function (
+    configuration?: Configuration,
+    basePath?: string,
+    axios?: AxiosInstance
+) {
     const localVarFp = MetricsApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Get aggregated invocation statistics for a day
          * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAggregatedInvocationsStats(day?: string, options?: RawAxiosRequestConfig): AxiosPromise<DailyInvocationStatistic> {
-            return localVarFp.getAggregatedInvocationsStats(day, options).then((request) => request(axios, basePath));
+        getAggregatedInvocationsStats(
+            day?: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<DailyInvocationStatistic> {
+            return localVarFp
+                .getAggregatedInvocationsStats(day, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get aggregation of conformance metrics
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getConformanceMetricsAggregation(options?: RawAxiosRequestConfig): AxiosPromise<Array<WeightedMetricValue>> {
-            return localVarFp.getConformanceMetricsAggregation(options).then((request) => request(axios, basePath));
+        getConformanceMetricsAggregation(
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<WeightedMetricValue>> {
+            return localVarFp
+                .getConformanceMetricsAggregation(options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get invocation statistics for Service
          * @param {string} serviceName Name of service to get statistics for
          * @param {string} serviceVersion Version of service to get statistics for
@@ -3712,52 +4894,85 @@ export const MetricsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInvocationStatsByService(serviceName: string, serviceVersion: string, day?: string, options?: RawAxiosRequestConfig): AxiosPromise<DailyInvocationStatistic> {
-            return localVarFp.getInvocationStatsByService(serviceName, serviceVersion, day, options).then((request) => request(axios, basePath));
+        getInvocationStatsByService(
+            serviceName: string,
+            serviceVersion: string,
+            day?: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<DailyInvocationStatistic> {
+            return localVarFp
+                .getInvocationStatsByService(
+                    serviceName,
+                    serviceVersion,
+                    day,
+                    options
+                )
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get aggregated invocations statistics for latest days
          * @param {number} [limit] Number of days to get back in time. Default is 20.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLatestAggregatedInvocationsStats(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }> {
-            return localVarFp.getLatestAggregatedInvocationsStats(limit, options).then((request) => request(axios, basePath));
+        getLatestAggregatedInvocationsStats(
+            limit?: number,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<{ [key: string]: number }> {
+            return localVarFp
+                .getLatestAggregatedInvocationsStats(limit, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get latest tests results
          * @param {number} [limit] Number of days to consider for test results to return. Default is 7 (one week)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLatestTestResults(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<TestResultSummary>> {
-            return localVarFp.getLatestTestResults(limit, options).then((request) => request(axios, basePath));
+        getLatestTestResults(
+            limit?: number,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<TestResultSummary>> {
+            return localVarFp
+                .getLatestTestResults(limit, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get conformance metrics for a Service
          * @param {string} serviceId Unique Services identifier this metrics are related to
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServiceTestConformanceMetric(serviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<TestConformanceMetric> {
-            return localVarFp.getServiceTestConformanceMetric(serviceId, options).then((request) => request(axios, basePath));
+        getServiceTestConformanceMetric(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<TestConformanceMetric> {
+            return localVarFp
+                .getServiceTestConformanceMetric(serviceId, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get top invocation statistics for a day
          * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
          * @param {number} [limit] The number of top invoked mocks to return
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTopIvnocationsStatsByDay(day?: string, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<DailyInvocationStatistic>> {
-            return localVarFp.getTopIvnocationsStatsByDay(day, limit, options).then((request) => request(axios, basePath));
+        getTopIvnocationsStatsByDay(
+            day?: string,
+            limit?: number,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<DailyInvocationStatistic>> {
+            return localVarFp
+                .getTopIvnocationsStatsByDay(day, limit, options)
+                .then((request) => request(axios, basePath))
         },
-    };
-};
+    }
+}
 
 /**
  * MetricsApi - object-oriented interface
@@ -3767,30 +4982,37 @@ export const MetricsApiFactory = function (configuration?: Configuration, basePa
  */
 export class MetricsApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Get aggregated invocation statistics for a day
      * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MetricsApi
      */
-    public getAggregatedInvocationsStats(day?: string, options?: RawAxiosRequestConfig) {
-        return MetricsApiFp(this.configuration).getAggregatedInvocationsStats(day, options).then((request) => request(this.axios, this.basePath));
+    public getAggregatedInvocationsStats(
+        day?: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MetricsApiFp(this.configuration)
+            .getAggregatedInvocationsStats(day, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get aggregation of conformance metrics
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MetricsApi
      */
     public getConformanceMetricsAggregation(options?: RawAxiosRequestConfig) {
-        return MetricsApiFp(this.configuration).getConformanceMetricsAggregation(options).then((request) => request(this.axios, this.basePath));
+        return MetricsApiFp(this.configuration)
+            .getConformanceMetricsAggregation(options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get invocation statistics for Service
      * @param {string} serviceName Name of service to get statistics for
      * @param {string} serviceVersion Version of service to get statistics for
@@ -3799,48 +5021,75 @@ export class MetricsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof MetricsApi
      */
-    public getInvocationStatsByService(serviceName: string, serviceVersion: string, day?: string, options?: RawAxiosRequestConfig) {
-        return MetricsApiFp(this.configuration).getInvocationStatsByService(serviceName, serviceVersion, day, options).then((request) => request(this.axios, this.basePath));
+    public getInvocationStatsByService(
+        serviceName: string,
+        serviceVersion: string,
+        day?: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MetricsApiFp(this.configuration)
+            .getInvocationStatsByService(
+                serviceName,
+                serviceVersion,
+                day,
+                options
+            )
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get aggregated invocations statistics for latest days
      * @param {number} [limit] Number of days to get back in time. Default is 20.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MetricsApi
      */
-    public getLatestAggregatedInvocationsStats(limit?: number, options?: RawAxiosRequestConfig) {
-        return MetricsApiFp(this.configuration).getLatestAggregatedInvocationsStats(limit, options).then((request) => request(this.axios, this.basePath));
+    public getLatestAggregatedInvocationsStats(
+        limit?: number,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MetricsApiFp(this.configuration)
+            .getLatestAggregatedInvocationsStats(limit, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get latest tests results
      * @param {number} [limit] Number of days to consider for test results to return. Default is 7 (one week)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MetricsApi
      */
-    public getLatestTestResults(limit?: number, options?: RawAxiosRequestConfig) {
-        return MetricsApiFp(this.configuration).getLatestTestResults(limit, options).then((request) => request(this.axios, this.basePath));
+    public getLatestTestResults(
+        limit?: number,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MetricsApiFp(this.configuration)
+            .getLatestTestResults(limit, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get conformance metrics for a Service
      * @param {string} serviceId Unique Services identifier this metrics are related to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MetricsApi
      */
-    public getServiceTestConformanceMetric(serviceId: string, options?: RawAxiosRequestConfig) {
-        return MetricsApiFp(this.configuration).getServiceTestConformanceMetric(serviceId, options).then((request) => request(this.axios, this.basePath));
+    public getServiceTestConformanceMetric(
+        serviceId: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MetricsApiFp(this.configuration)
+            .getServiceTestConformanceMetric(serviceId, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get top invocation statistics for a day
      * @param {string} [day] The day to get statistics for (formatted with yyyyMMdd pattern). Default to today if not provided.
      * @param {number} [limit] The number of top invoked mocks to return
@@ -3848,18 +5097,24 @@ export class MetricsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof MetricsApi
      */
-    public getTopIvnocationsStatsByDay(day?: string, limit?: number, options?: RawAxiosRequestConfig) {
-        return MetricsApiFp(this.configuration).getTopIvnocationsStatsByDay(day, limit, options).then((request) => request(this.axios, this.basePath));
+    public getTopIvnocationsStatsByDay(
+        day?: string,
+        limit?: number,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MetricsApiFp(this.configuration)
+            .getTopIvnocationsStatsByDay(day, limit, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 }
-
-
 
 /**
  * MockApi - axios parameter creator
  * @export
  */
-export const MockApiAxiosParamCreator = function (configuration?: Configuration) {
+export const MockApiAxiosParamCreator = function (
+    configuration?: Configuration
+) {
     return {
         /**
          * Delete a Service
@@ -3868,36 +5123,53 @@ export const MockApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteService: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteService: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteService', 'id', id)
-            const localVarPath = `/services/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/services/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'DELETE',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin", "manager"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin', 'manager'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Export a repostiory snapshot with requested services
@@ -3906,194 +5178,271 @@ export const MockApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        exportSnapshot: async (serviceIds: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        exportSnapshot: async (
+            serviceIds: Array<string>,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'serviceIds' is not null or undefined
             assertParamExists('exportSnapshot', 'serviceIds', serviceIds)
-            const localVarPath = `/export`;
+            const localVarPath = `/export`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin'],
+                configuration
+            )
 
             if (serviceIds) {
-                localVarQueryParameter['serviceIds'] = serviceIds;
+                localVarQueryParameter['serviceIds'] = serviceIds
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get Service
          * @param {string} id Unique identifier of Service to managed
          * @param {boolean} [messages] Whether to include details on services messages into result. Default is false
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getService: async (id: string, messages?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getService: async (
+            id: string,
+            messages?: boolean,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getService', 'id', id)
-            const localVarPath = `/services/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/services/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
             if (messages !== undefined) {
-                localVarQueryParameter['messages'] = messages;
+                localVarQueryParameter['messages'] = messages
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get Services and APIs
          * @param {number} [page] Page of Services to retrieve (starts at and defaults to 0)
          * @param {number} [size] Size of a page. Maximum number of Services to include in a response (defaults to 20)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServices: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/services`;
+        getServices: async (
+            page?: number,
+            size?: number,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/services`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
             if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
+                localVarQueryParameter['page'] = page
             }
 
             if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
+                localVarQueryParameter['size'] = size
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get the Services counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServicesCounter: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/services/count`;
+        getServicesCounter: async (
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/services/count`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get the already used labels for Services
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServicesLabels: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/services/labels`;
+        getServicesLabels: async (
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
+            const localVarPath = `/services/labels`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Import a repository snapshot previsouly exported into Microcks
@@ -4102,190 +5451,275 @@ export const MockApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        importSnapshot: async (file: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        importSnapshot: async (
+            file: File,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'file' is not null or undefined
             assertParamExists('importSnapshot', 'file', file)
-            const localVarPath = `/import`;
+            const localVarPath = `/import`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
+            const localVarFormParams = new ((configuration &&
+                configuration.formDataCtor) ||
+                FormData)()
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin'],
+                configuration
+            )
 
-
-            if (file !== undefined) { 
-                localVarFormParams.append('file', file as any);
+            if (file !== undefined) {
+                localVarFormParams.append('file', file as any)
             }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams;
+
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data'
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = localVarFormParams
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Override Service Operation
          * @param {string} id Unique identifier of Service to managed
          * @param {string} operationName Name of operation to update
-         * @param {OperationOverrideDTO} operationOverrideDTO 
+         * @param {OperationOverrideDTO} operationOverrideDTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        overrideServiceOperation: async (id: string, operationName: string, operationOverrideDTO: OperationOverrideDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        overrideServiceOperation: async (
+            id: string,
+            operationName: string,
+            operationOverrideDTO: OperationOverrideDTO,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('overrideServiceOperation', 'id', id)
             // verify required parameter 'operationName' is not null or undefined
-            assertParamExists('overrideServiceOperation', 'operationName', operationName)
+            assertParamExists(
+                'overrideServiceOperation',
+                'operationName',
+                operationName
+            )
             // verify required parameter 'operationOverrideDTO' is not null or undefined
-            assertParamExists('overrideServiceOperation', 'operationOverrideDTO', operationOverrideDTO)
-            const localVarPath = `/services/{id}/operation`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists(
+                'overrideServiceOperation',
+                'operationOverrideDTO',
+                operationOverrideDTO
+            )
+            const localVarPath = `/services/{id}/operation`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin", "manager"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin', 'manager'],
+                configuration
+            )
 
             if (operationName !== undefined) {
-                localVarQueryParameter['operationName'] = operationName;
+                localVarQueryParameter['operationName'] = operationName
             }
 
+            localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(operationOverrideDTO, localVarRequestOptions, configuration)
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = serializeDataIfNeeded(
+                operationOverrideDTO,
+                localVarRequestOptions,
+                configuration
+            )
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Search for Services and APIs
          * @param {{ [key: string]: string; }} queryMap Map of criterion. Key can be simply \&#39;name\&#39; with value as the searched string. You can also search by label using keys like \&#39;labels.x\&#39; where \&#39;x\&#39; is the label and value the label value
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchServices: async (queryMap: { [key: string]: string; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        searchServices: async (
+            queryMap: { [key: string]: string },
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'queryMap' is not null or undefined
             assertParamExists('searchServices', 'queryMap', queryMap)
-            const localVarPath = `/services/search`;
+            const localVarPath = `/services/search`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
             if (queryMap !== undefined) {
                 for (const [key, value] of Object.entries(queryMap)) {
-                    localVarQueryParameter[key] = value;
+                    localVarQueryParameter[key] = value
                 }
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Update Service Metadata
          * @param {string} id Unique identifier of Service to managed
-         * @param {Metadata} metadata 
+         * @param {Metadata} metadata
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateServiceMetadata: async (id: string, metadata: Metadata, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateServiceMetadata: async (
+            id: string,
+            metadata: Metadata,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateServiceMetadata', 'id', id)
             // verify required parameter 'metadata' is not null or undefined
             assertParamExists('updateServiceMetadata', 'metadata', metadata)
-            const localVarPath = `/services/{id}/metadata`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/services/{id}/metadata`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'PUT',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["admin", "manager"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['admin', 'manager'],
+                configuration
+            )
 
+            localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(metadata, localVarRequestOptions, configuration)
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = serializeDataIfNeeded(
+                metadata,
+                localVarRequestOptions,
+                configuration
+            )
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
     }
-};
+}
 
 /**
  * MockApi - functional programming interface
  * @export
  */
-export const MockApiFp = function(configuration?: Configuration) {
+export const MockApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = MockApiAxiosParamCreator(configuration)
     return {
         /**
@@ -4295,11 +5729,26 @@ export const MockApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteService(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteService(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.deleteService']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async deleteService(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.deleteService(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.deleteService']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Export a repostiory snapshot with requested services
@@ -4308,63 +5757,151 @@ export const MockApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async exportSnapshot(serviceIds: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.exportSnapshot(serviceIds, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.exportSnapshot']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async exportSnapshot(
+            serviceIds: Array<string>,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.exportSnapshot(
+                    serviceIds,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.exportSnapshot']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get Service
          * @param {string} id Unique identifier of Service to managed
          * @param {boolean} [messages] Whether to include details on services messages into result. Default is false
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getService(id: string, messages?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetService200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getService(id, messages, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.getService']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getService(
+            id: string,
+            messages?: boolean,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<GetService200Response>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getService(
+                    id,
+                    messages,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.getService']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get Services and APIs
          * @param {number} [page] Page of Services to retrieve (starts at and defaults to 0)
          * @param {number} [size] Size of a page. Maximum number of Services to include in a response (defaults to 20)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getServices(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Service>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getServices(page, size, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.getServices']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getServices(
+            page?: number,
+            size?: number,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Service>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getServices(page, size, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.getServices']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get the Services counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getServicesCounter(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getServicesCounter(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.getServicesCounter']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getServicesCounter(
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getServicesCounter(options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.getServicesCounter']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get the already used labels for Services
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getServicesLabels(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Array<string>; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getServicesLabels(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.getServicesLabels']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getServicesLabels(
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<{ [key: string]: Array<string> }>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getServicesLabels(options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.getServicesLabels']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Import a repository snapshot previsouly exported into Microcks
@@ -4373,62 +5910,144 @@ export const MockApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async importSnapshot(file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.importSnapshot(file, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.importSnapshot']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async importSnapshot(
+            file: File,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.importSnapshot(file, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.importSnapshot']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Override Service Operation
          * @param {string} id Unique identifier of Service to managed
          * @param {string} operationName Name of operation to update
-         * @param {OperationOverrideDTO} operationOverrideDTO 
+         * @param {OperationOverrideDTO} operationOverrideDTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async overrideServiceOperation(id: string, operationName: string, operationOverrideDTO: OperationOverrideDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.overrideServiceOperation(id, operationName, operationOverrideDTO, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.overrideServiceOperation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async overrideServiceOperation(
+            id: string,
+            operationName: string,
+            operationOverrideDTO: OperationOverrideDTO,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.overrideServiceOperation(
+                    id,
+                    operationName,
+                    operationOverrideDTO,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.overrideServiceOperation']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Search for Services and APIs
          * @param {{ [key: string]: string; }} queryMap Map of criterion. Key can be simply \&#39;name\&#39; with value as the searched string. You can also search by label using keys like \&#39;labels.x\&#39; where \&#39;x\&#39; is the label and value the label value
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async searchServices(queryMap: { [key: string]: string; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Service>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.searchServices(queryMap, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.searchServices']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async searchServices(
+            queryMap: { [key: string]: string },
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<Service>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.searchServices(
+                    queryMap,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.searchServices']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Update Service Metadata
          * @param {string} id Unique identifier of Service to managed
-         * @param {Metadata} metadata 
+         * @param {Metadata} metadata
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateServiceMetadata(id: string, metadata: Metadata, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateServiceMetadata(id, metadata, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MockApi.updateServiceMetadata']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async updateServiceMetadata(
+            id: string,
+            metadata: Metadata,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.updateServiceMetadata(
+                    id,
+                    metadata,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['MockApi.updateServiceMetadata']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
     }
-};
+}
 
 /**
  * MockApi - factory interface
  * @export
  */
-export const MockApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const MockApiFactory = function (
+    configuration?: Configuration,
+    basePath?: string,
+    axios?: AxiosInstance
+) {
     const localVarFp = MockApiFp(configuration)
     return {
         /**
@@ -4438,8 +6057,13 @@ export const MockApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteService(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteService(id, options).then((request) => request(axios, basePath));
+        deleteService(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .deleteService(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Export a repostiory snapshot with requested services
@@ -4448,48 +6072,73 @@ export const MockApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        exportSnapshot(serviceIds: Array<string>, options?: RawAxiosRequestConfig): AxiosPromise<File> {
-            return localVarFp.exportSnapshot(serviceIds, options).then((request) => request(axios, basePath));
+        exportSnapshot(
+            serviceIds: Array<string>,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<File> {
+            return localVarFp
+                .exportSnapshot(serviceIds, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get Service
          * @param {string} id Unique identifier of Service to managed
          * @param {boolean} [messages] Whether to include details on services messages into result. Default is false
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getService(id: string, messages?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<GetService200Response> {
-            return localVarFp.getService(id, messages, options).then((request) => request(axios, basePath));
+        getService(
+            id: string,
+            messages?: boolean,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<GetService200Response> {
+            return localVarFp
+                .getService(id, messages, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get Services and APIs
          * @param {number} [page] Page of Services to retrieve (starts at and defaults to 0)
          * @param {number} [size] Size of a page. Maximum number of Services to include in a response (defaults to 20)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServices(page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<Service> {
-            return localVarFp.getServices(page, size, options).then((request) => request(axios, basePath));
+        getServices(
+            page?: number,
+            size?: number,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Service> {
+            return localVarFp
+                .getServices(page, size, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get the Services counter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServicesCounter(options?: RawAxiosRequestConfig): AxiosPromise<Counter> {
-            return localVarFp.getServicesCounter(options).then((request) => request(axios, basePath));
+        getServicesCounter(
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Counter> {
+            return localVarFp
+                .getServicesCounter(options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get the already used labels for Services
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getServicesLabels(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<string>; }> {
-            return localVarFp.getServicesLabels(options).then((request) => request(axios, basePath));
+        getServicesLabels(
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<{ [key: string]: Array<string> }> {
+            return localVarFp
+                .getServicesLabels(options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Import a repository snapshot previsouly exported into Microcks
@@ -4498,44 +6147,72 @@ export const MockApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        importSnapshot(file: File, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.importSnapshot(file, options).then((request) => request(axios, basePath));
+        importSnapshot(
+            file: File,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .importSnapshot(file, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Override Service Operation
          * @param {string} id Unique identifier of Service to managed
          * @param {string} operationName Name of operation to update
-         * @param {OperationOverrideDTO} operationOverrideDTO 
+         * @param {OperationOverrideDTO} operationOverrideDTO
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        overrideServiceOperation(id: string, operationName: string, operationOverrideDTO: OperationOverrideDTO, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.overrideServiceOperation(id, operationName, operationOverrideDTO, options).then((request) => request(axios, basePath));
+        overrideServiceOperation(
+            id: string,
+            operationName: string,
+            operationOverrideDTO: OperationOverrideDTO,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .overrideServiceOperation(
+                    id,
+                    operationName,
+                    operationOverrideDTO,
+                    options
+                )
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Search for Services and APIs
          * @param {{ [key: string]: string; }} queryMap Map of criterion. Key can be simply \&#39;name\&#39; with value as the searched string. You can also search by label using keys like \&#39;labels.x\&#39; where \&#39;x\&#39; is the label and value the label value
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchServices(queryMap: { [key: string]: string; }, options?: RawAxiosRequestConfig): AxiosPromise<Array<Service>> {
-            return localVarFp.searchServices(queryMap, options).then((request) => request(axios, basePath));
+        searchServices(
+            queryMap: { [key: string]: string },
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<Service>> {
+            return localVarFp
+                .searchServices(queryMap, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Update Service Metadata
          * @param {string} id Unique identifier of Service to managed
-         * @param {Metadata} metadata 
+         * @param {Metadata} metadata
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateServiceMetadata(id: string, metadata: Metadata, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateServiceMetadata(id, metadata, options).then((request) => request(axios, basePath));
+        updateServiceMetadata(
+            id: string,
+            metadata: Metadata,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<void> {
+            return localVarFp
+                .updateServiceMetadata(id, metadata, options)
+                .then((request) => request(axios, basePath))
         },
-    };
-};
+    }
+}
 
 /**
  * MockApi - object-oriented interface
@@ -4553,7 +6230,9 @@ export class MockApi extends BaseAPI {
      * @memberof MockApi
      */
     public deleteService(id: string, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).deleteService(id, options).then((request) => request(this.axios, this.basePath));
+        return MockApiFp(this.configuration)
+            .deleteService(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -4564,12 +6243,17 @@ export class MockApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof MockApi
      */
-    public exportSnapshot(serviceIds: Array<string>, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).exportSnapshot(serviceIds, options).then((request) => request(this.axios, this.basePath));
+    public exportSnapshot(
+        serviceIds: Array<string>,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MockApiFp(this.configuration)
+            .exportSnapshot(serviceIds, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get Service
      * @param {string} id Unique identifier of Service to managed
      * @param {boolean} [messages] Whether to include details on services messages into result. Default is false
@@ -4577,12 +6261,18 @@ export class MockApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof MockApi
      */
-    public getService(id: string, messages?: boolean, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).getService(id, messages, options).then((request) => request(this.axios, this.basePath));
+    public getService(
+        id: string,
+        messages?: boolean,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MockApiFp(this.configuration)
+            .getService(id, messages, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get Services and APIs
      * @param {number} [page] Page of Services to retrieve (starts at and defaults to 0)
      * @param {number} [size] Size of a page. Maximum number of Services to include in a response (defaults to 20)
@@ -4590,30 +6280,40 @@ export class MockApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof MockApi
      */
-    public getServices(page?: number, size?: number, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).getServices(page, size, options).then((request) => request(this.axios, this.basePath));
+    public getServices(
+        page?: number,
+        size?: number,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MockApiFp(this.configuration)
+            .getServices(page, size, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get the Services counter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockApi
      */
     public getServicesCounter(options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).getServicesCounter(options).then((request) => request(this.axios, this.basePath));
+        return MockApiFp(this.configuration)
+            .getServicesCounter(options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get the already used labels for Services
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockApi
      */
     public getServicesLabels(options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).getServicesLabels(options).then((request) => request(this.axios, this.basePath));
+        return MockApiFp(this.configuration)
+            .getServicesLabels(options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -4625,294 +6325,431 @@ export class MockApi extends BaseAPI {
      * @memberof MockApi
      */
     public importSnapshot(file: File, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).importSnapshot(file, options).then((request) => request(this.axios, this.basePath));
+        return MockApiFp(this.configuration)
+            .importSnapshot(file, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Override Service Operation
      * @param {string} id Unique identifier of Service to managed
      * @param {string} operationName Name of operation to update
-     * @param {OperationOverrideDTO} operationOverrideDTO 
+     * @param {OperationOverrideDTO} operationOverrideDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockApi
      */
-    public overrideServiceOperation(id: string, operationName: string, operationOverrideDTO: OperationOverrideDTO, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).overrideServiceOperation(id, operationName, operationOverrideDTO, options).then((request) => request(this.axios, this.basePath));
+    public overrideServiceOperation(
+        id: string,
+        operationName: string,
+        operationOverrideDTO: OperationOverrideDTO,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MockApiFp(this.configuration)
+            .overrideServiceOperation(
+                id,
+                operationName,
+                operationOverrideDTO,
+                options
+            )
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Search for Services and APIs
      * @param {{ [key: string]: string; }} queryMap Map of criterion. Key can be simply \&#39;name\&#39; with value as the searched string. You can also search by label using keys like \&#39;labels.x\&#39; where \&#39;x\&#39; is the label and value the label value
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockApi
      */
-    public searchServices(queryMap: { [key: string]: string; }, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).searchServices(queryMap, options).then((request) => request(this.axios, this.basePath));
+    public searchServices(
+        queryMap: { [key: string]: string },
+        options?: RawAxiosRequestConfig
+    ) {
+        return MockApiFp(this.configuration)
+            .searchServices(queryMap, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Update Service Metadata
      * @param {string} id Unique identifier of Service to managed
-     * @param {Metadata} metadata 
+     * @param {Metadata} metadata
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockApi
      */
-    public updateServiceMetadata(id: string, metadata: Metadata, options?: RawAxiosRequestConfig) {
-        return MockApiFp(this.configuration).updateServiceMetadata(id, metadata, options).then((request) => request(this.axios, this.basePath));
+    public updateServiceMetadata(
+        id: string,
+        metadata: Metadata,
+        options?: RawAxiosRequestConfig
+    ) {
+        return MockApiFp(this.configuration)
+            .updateServiceMetadata(id, metadata, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 }
-
-
 
 /**
  * TestApi - axios parameter creator
  * @export
  */
-export const TestApiAxiosParamCreator = function (configuration?: Configuration) {
+export const TestApiAxiosParamCreator = function (
+    configuration?: Configuration
+) {
     return {
         /**
-         * 
+         *
          * @summary Create a new Test
-         * @param {TestRequest} testRequest 
+         * @param {TestRequest} testRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTest: async (testRequest: TestRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createTest: async (
+            testRequest: TestRequest,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'testRequest' is not null or undefined
             assertParamExists('createTest', 'testRequest', testRequest)
-            const localVarPath = `/tests`;
+            const localVarPath = `/tests`
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
+            localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(testRequest, localVarRequestOptions, configuration)
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = serializeDataIfNeeded(
+                testRequest,
+                localVarRequestOptions,
+                configuration
+            )
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get events for TestCase
          * @param {string} id Unique identifier of TestResult to manage
          * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEventsByTestCase: async (id: string, testCaseId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getEventsByTestCase: async (
+            id: string,
+            testCaseId: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getEventsByTestCase', 'id', id)
             // verify required parameter 'testCaseId' is not null or undefined
             assertParamExists('getEventsByTestCase', 'testCaseId', testCaseId)
             const localVarPath = `/tests/{id}/events/{testCaseId}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-                .replace(`{${"testCaseId"}}`, encodeURIComponent(String(testCaseId)));
+                .replace(`{${'id'}}`, encodeURIComponent(String(id)))
+                .replace(
+                    `{${'testCaseId'}}`,
+                    encodeURIComponent(String(testCaseId))
+                )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get messages for TestCase
          * @param {string} id Unique identifier of TestResult to manage
          * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMessagesByTestCase: async (id: string, testCaseId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getMessagesByTestCase: async (
+            id: string,
+            testCaseId: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getMessagesByTestCase', 'id', id)
             // verify required parameter 'testCaseId' is not null or undefined
             assertParamExists('getMessagesByTestCase', 'testCaseId', testCaseId)
             const localVarPath = `/tests/{id}/messages/{testCaseId}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-                .replace(`{${"testCaseId"}}`, encodeURIComponent(String(testCaseId)));
+                .replace(`{${'id'}}`, encodeURIComponent(String(id)))
+                .replace(
+                    `{${'testCaseId'}}`,
+                    encodeURIComponent(String(testCaseId))
+                )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get TestResult
          * @param {string} id Unique identifier of TestResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTestResult: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getTestResult: async (
+            id: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getTestResult', 'id', id)
-            const localVarPath = `/tests/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/tests/{id}`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get TestResults by Service
          * @param {string} serviceId Unique identifier of Service to manage TestResults for
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTestResultsByService: async (serviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getTestResultsByService: async (
+            serviceId: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'serviceId' is not null or undefined
             assertParamExists('getTestResultsByService', 'serviceId', serviceId)
-            const localVarPath = `/tests/service/{serviceId}`
-                .replace(`{${"serviceId"}}`, encodeURIComponent(String(serviceId)));
+            const localVarPath = `/tests/service/{serviceId}`.replace(
+                `{${'serviceId'}}`,
+                encodeURIComponent(String(serviceId))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
-         * 
+         *
          * @summary Get the TestResults for Service counter
          * @param {string} serviceId Unique identifier of Service to manage TestResults for
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTestResultsByServiceCounter: async (serviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getTestResultsByServiceCounter: async (
+            serviceId: string,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'serviceId' is not null or undefined
-            assertParamExists('getTestResultsByServiceCounter', 'serviceId', serviceId)
-            const localVarPath = `/tests/service/{serviceId}/count`
-                .replace(`{${"serviceId"}}`, encodeURIComponent(String(serviceId)));
+            assertParamExists(
+                'getTestResultsByServiceCounter',
+                'serviceId',
+                serviceId
+            )
+            const localVarPath = `/tests/service/{serviceId}/count`.replace(
+                `{${'serviceId'}}`,
+                encodeURIComponent(String(serviceId))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'GET',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", ["user"], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                ['user'],
+                configuration
+            )
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
         /**
          * Report a TestCaseResult (typically used by a Test runner)
@@ -4922,131 +6759,278 @@ export const TestApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        reportTestCaseResult: async (id: string, testCaseReturnDTO: TestCaseReturnDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        reportTestCaseResult: async (
+            id: string,
+            testCaseReturnDTO: TestCaseReturnDTO,
+            options: RawAxiosRequestConfig = {}
+        ): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('reportTestCaseResult', 'id', id)
             // verify required parameter 'testCaseReturnDTO' is not null or undefined
-            assertParamExists('reportTestCaseResult', 'testCaseReturnDTO', testCaseReturnDTO)
-            const localVarPath = `/tests/{id}/testCaseResult`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists(
+                'reportTestCaseResult',
+                'testCaseReturnDTO',
+                testCaseReturnDTO
+            )
+            const localVarPath = `/tests/{id}/testCaseResult`.replace(
+                `{${'id'}}`,
+                encodeURIComponent(String(id))
+            )
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+            let baseOptions
             if (configuration) {
-                baseOptions = configuration.baseOptions;
+                baseOptions = configuration.baseOptions
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarRequestOptions = {
+                method: 'POST',
+                ...baseOptions,
+                ...options,
+            }
+            const localVarHeaderParameter = {} as any
+            const localVarQueryParameter = {} as any
 
             // authentication jwt-bearer required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "jwt-bearer", [], configuration)
+            await setOAuthToObject(
+                localVarHeaderParameter,
+                'jwt-bearer',
+                [],
+                configuration
+            )
 
+            localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(testCaseReturnDTO, localVarRequestOptions, configuration)
+            setSearchParams(localVarUrlObj, localVarQueryParameter)
+            let headersFromBaseOptions =
+                baseOptions && baseOptions.headers ? baseOptions.headers : {}
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            }
+            localVarRequestOptions.data = serializeDataIfNeeded(
+                testCaseReturnDTO,
+                localVarRequestOptions,
+                configuration
+            )
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
-            };
+            }
         },
     }
-};
+}
 
 /**
  * TestApi - functional programming interface
  * @export
  */
-export const TestApiFp = function(configuration?: Configuration) {
+export const TestApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = TestApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create a new Test
-         * @param {TestRequest} testRequest 
+         * @param {TestRequest} testRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createTest(testRequest: TestRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createTest(testRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestApi.createTest']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async createTest(
+            testRequest: TestRequest,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<TestResult>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.createTest(testRequest, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['TestApi.createTest']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get events for TestCase
          * @param {string} id Unique identifier of TestResult to manage
          * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEventsByTestCase(id: string, testCaseId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UnidirectionalEvent>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getEventsByTestCase(id, testCaseId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestApi.getEventsByTestCase']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getEventsByTestCase(
+            id: string,
+            testCaseId: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<UnidirectionalEvent>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getEventsByTestCase(
+                    id,
+                    testCaseId,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['TestApi.getEventsByTestCase']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get messages for TestCase
          * @param {string} id Unique identifier of TestResult to manage
          * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getMessagesByTestCase(id: string, testCaseId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RequestResponsePair>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getMessagesByTestCase(id, testCaseId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestApi.getMessagesByTestCase']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getMessagesByTestCase(
+            id: string,
+            testCaseId: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<RequestResponsePair>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getMessagesByTestCase(
+                    id,
+                    testCaseId,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['TestApi.getMessagesByTestCase']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get TestResult
          * @param {string} id Unique identifier of TestResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTestResult(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTestResult(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestApi.getTestResult']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getTestResult(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<TestResult>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getTestResult(id, options)
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['TestApi.getTestResult']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get TestResults by Service
          * @param {string} serviceId Unique identifier of Service to manage TestResults for
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTestResultsByService(serviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TestResult>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTestResultsByService(serviceId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestApi.getTestResultsByService']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getTestResultsByService(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<Array<TestResult>>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getTestResultsByService(
+                    serviceId,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['TestApi.getTestResultsByService']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
-         * 
+         *
          * @summary Get the TestResults for Service counter
          * @param {string} serviceId Unique identifier of Service to manage TestResults for
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTestResultsByServiceCounter(serviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTestResultsByServiceCounter(serviceId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestApi.getTestResultsByServiceCounter']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async getTestResultsByServiceCounter(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Counter>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.getTestResultsByServiceCounter(
+                    serviceId,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['TestApi.getTestResultsByServiceCounter']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
         /**
          * Report a TestCaseResult (typically used by a Test runner)
@@ -5056,83 +7040,142 @@ export const TestApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async reportTestCaseResult(id: string, testCaseReturnDTO: TestCaseReturnDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestCaseResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.reportTestCaseResult(id, testCaseReturnDTO, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestApi.reportTestCaseResult']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        async reportTestCaseResult(
+            id: string,
+            testCaseReturnDTO: TestCaseReturnDTO,
+            options?: RawAxiosRequestConfig
+        ): Promise<
+            (
+                axios?: AxiosInstance,
+                basePath?: string
+            ) => AxiosPromise<TestCaseResult>
+        > {
+            const localVarAxiosArgs =
+                await localVarAxiosParamCreator.reportTestCaseResult(
+                    id,
+                    testCaseReturnDTO,
+                    options
+                )
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+            const localVarOperationServerBasePath =
+                operationServerMap['TestApi.reportTestCaseResult']?.[
+                    localVarOperationServerIndex
+                ]?.url
+            return (axios, basePath) =>
+                createRequestFunction(
+                    localVarAxiosArgs,
+                    globalAxios,
+                    BASE_PATH,
+                    configuration
+                )(axios, localVarOperationServerBasePath || basePath)
         },
     }
-};
+}
 
 /**
  * TestApi - factory interface
  * @export
  */
-export const TestApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const TestApiFactory = function (
+    configuration?: Configuration,
+    basePath?: string,
+    axios?: AxiosInstance
+) {
     const localVarFp = TestApiFp(configuration)
     return {
         /**
-         * 
+         *
          * @summary Create a new Test
-         * @param {TestRequest} testRequest 
+         * @param {TestRequest} testRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTest(testRequest: TestRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestResult> {
-            return localVarFp.createTest(testRequest, options).then((request) => request(axios, basePath));
+        createTest(
+            testRequest: TestRequest,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<TestResult> {
+            return localVarFp
+                .createTest(testRequest, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get events for TestCase
          * @param {string} id Unique identifier of TestResult to manage
          * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEventsByTestCase(id: string, testCaseId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<UnidirectionalEvent>> {
-            return localVarFp.getEventsByTestCase(id, testCaseId, options).then((request) => request(axios, basePath));
+        getEventsByTestCase(
+            id: string,
+            testCaseId: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<UnidirectionalEvent>> {
+            return localVarFp
+                .getEventsByTestCase(id, testCaseId, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get messages for TestCase
          * @param {string} id Unique identifier of TestResult to manage
          * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMessagesByTestCase(id: string, testCaseId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<RequestResponsePair>> {
-            return localVarFp.getMessagesByTestCase(id, testCaseId, options).then((request) => request(axios, basePath));
+        getMessagesByTestCase(
+            id: string,
+            testCaseId: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<RequestResponsePair>> {
+            return localVarFp
+                .getMessagesByTestCase(id, testCaseId, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get TestResult
          * @param {string} id Unique identifier of TestResult to manage
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTestResult(id: string, options?: RawAxiosRequestConfig): AxiosPromise<TestResult> {
-            return localVarFp.getTestResult(id, options).then((request) => request(axios, basePath));
+        getTestResult(
+            id: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<TestResult> {
+            return localVarFp
+                .getTestResult(id, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get TestResults by Service
          * @param {string} serviceId Unique identifier of Service to manage TestResults for
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTestResultsByService(serviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<TestResult>> {
-            return localVarFp.getTestResultsByService(serviceId, options).then((request) => request(axios, basePath));
+        getTestResultsByService(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Array<TestResult>> {
+            return localVarFp
+                .getTestResultsByService(serviceId, options)
+                .then((request) => request(axios, basePath))
         },
         /**
-         * 
+         *
          * @summary Get the TestResults for Service counter
          * @param {string} serviceId Unique identifier of Service to manage TestResults for
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTestResultsByServiceCounter(serviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<Counter> {
-            return localVarFp.getTestResultsByServiceCounter(serviceId, options).then((request) => request(axios, basePath));
+        getTestResultsByServiceCounter(
+            serviceId: string,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<Counter> {
+            return localVarFp
+                .getTestResultsByServiceCounter(serviceId, options)
+                .then((request) => request(axios, basePath))
         },
         /**
          * Report a TestCaseResult (typically used by a Test runner)
@@ -5142,11 +7185,17 @@ export const TestApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        reportTestCaseResult(id: string, testCaseReturnDTO: TestCaseReturnDTO, options?: RawAxiosRequestConfig): AxiosPromise<TestCaseResult> {
-            return localVarFp.reportTestCaseResult(id, testCaseReturnDTO, options).then((request) => request(axios, basePath));
+        reportTestCaseResult(
+            id: string,
+            testCaseReturnDTO: TestCaseReturnDTO,
+            options?: RawAxiosRequestConfig
+        ): AxiosPromise<TestCaseResult> {
+            return localVarFp
+                .reportTestCaseResult(id, testCaseReturnDTO, options)
+                .then((request) => request(axios, basePath))
         },
-    };
-};
+    }
+}
 
 /**
  * TestApi - object-oriented interface
@@ -5156,19 +7205,24 @@ export const TestApiFactory = function (configuration?: Configuration, basePath?
  */
 export class TestApi extends BaseAPI {
     /**
-     * 
+     *
      * @summary Create a new Test
-     * @param {TestRequest} testRequest 
+     * @param {TestRequest} testRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public createTest(testRequest: TestRequest, options?: RawAxiosRequestConfig) {
-        return TestApiFp(this.configuration).createTest(testRequest, options).then((request) => request(this.axios, this.basePath));
+    public createTest(
+        testRequest: TestRequest,
+        options?: RawAxiosRequestConfig
+    ) {
+        return TestApiFp(this.configuration)
+            .createTest(testRequest, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get events for TestCase
      * @param {string} id Unique identifier of TestResult to manage
      * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
@@ -5176,12 +7230,18 @@ export class TestApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public getEventsByTestCase(id: string, testCaseId: string, options?: RawAxiosRequestConfig) {
-        return TestApiFp(this.configuration).getEventsByTestCase(id, testCaseId, options).then((request) => request(this.axios, this.basePath));
+    public getEventsByTestCase(
+        id: string,
+        testCaseId: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return TestApiFp(this.configuration)
+            .getEventsByTestCase(id, testCaseId, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get messages for TestCase
      * @param {string} id Unique identifier of TestResult to manage
      * @param {string} testCaseId Unique identifier of TetsCaseResult to manage
@@ -5189,12 +7249,18 @@ export class TestApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public getMessagesByTestCase(id: string, testCaseId: string, options?: RawAxiosRequestConfig) {
-        return TestApiFp(this.configuration).getMessagesByTestCase(id, testCaseId, options).then((request) => request(this.axios, this.basePath));
+    public getMessagesByTestCase(
+        id: string,
+        testCaseId: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return TestApiFp(this.configuration)
+            .getMessagesByTestCase(id, testCaseId, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get TestResult
      * @param {string} id Unique identifier of TestResult to manage
      * @param {*} [options] Override http request option.
@@ -5202,31 +7268,43 @@ export class TestApi extends BaseAPI {
      * @memberof TestApi
      */
     public getTestResult(id: string, options?: RawAxiosRequestConfig) {
-        return TestApiFp(this.configuration).getTestResult(id, options).then((request) => request(this.axios, this.basePath));
+        return TestApiFp(this.configuration)
+            .getTestResult(id, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get TestResults by Service
      * @param {string} serviceId Unique identifier of Service to manage TestResults for
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public getTestResultsByService(serviceId: string, options?: RawAxiosRequestConfig) {
-        return TestApiFp(this.configuration).getTestResultsByService(serviceId, options).then((request) => request(this.axios, this.basePath));
+    public getTestResultsByService(
+        serviceId: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return TestApiFp(this.configuration)
+            .getTestResultsByService(serviceId, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
-     * 
+     *
      * @summary Get the TestResults for Service counter
      * @param {string} serviceId Unique identifier of Service to manage TestResults for
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public getTestResultsByServiceCounter(serviceId: string, options?: RawAxiosRequestConfig) {
-        return TestApiFp(this.configuration).getTestResultsByServiceCounter(serviceId, options).then((request) => request(this.axios, this.basePath));
+    public getTestResultsByServiceCounter(
+        serviceId: string,
+        options?: RawAxiosRequestConfig
+    ) {
+        return TestApiFp(this.configuration)
+            .getTestResultsByServiceCounter(serviceId, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 
     /**
@@ -5238,10 +7316,13 @@ export class TestApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public reportTestCaseResult(id: string, testCaseReturnDTO: TestCaseReturnDTO, options?: RawAxiosRequestConfig) {
-        return TestApiFp(this.configuration).reportTestCaseResult(id, testCaseReturnDTO, options).then((request) => request(this.axios, this.basePath));
+    public reportTestCaseResult(
+        id: string,
+        testCaseReturnDTO: TestCaseReturnDTO,
+        options?: RawAxiosRequestConfig
+    ) {
+        return TestApiFp(this.configuration)
+            .reportTestCaseResult(id, testCaseReturnDTO, options)
+            .then((request) => request(this.axios, this.basePath))
     }
 }
-
-
-
