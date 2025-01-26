@@ -29,27 +29,27 @@ Follow these steps to get started with the react-vite-ui template:
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/dan5py/react-vite-ui.git
-   ```
+    ```bash
+    git clone https://github.com/dan5py/react-vite-ui.git
+    ```
 
 2. Navigate to the project directory:
 
-   ```bash
-   cd react-vite-ui
-   ```
+    ```bash
+    cd react-vite-ui
+    ```
 
 3. Install the dependencies:
 
-   ```bash
-   pnpm install
-   ```
+    ```bash
+    pnpm install
+    ```
 
 4. Start the development server:
 
-   ```bash
-   pnpm dev
-   ```
+    ```bash
+    pnpm dev
+    ```
 
 ## 📜 Available Scripts
 
