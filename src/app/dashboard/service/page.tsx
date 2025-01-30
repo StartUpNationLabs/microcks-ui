@@ -38,9 +38,9 @@ export default function Services() {
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
                 <h1 className="text-2xl">APIs and Services</h1>
                 <h2 className="text-lg">
-                    These are the APIs and Services managed by Microcks.
+                    These are the APIs | Services managed by Microcks. You can discover new ones adding Import Job or creating a new Direct API...
                 </h2>
-                <div className={'container mx-auto p-4 '}>
+                <div className={'  p-4 '}>
                     <DataTable />
                 </div>
             </div>

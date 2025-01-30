@@ -93,7 +93,7 @@ const DataTable = () => {
     if (isError) return <div>Error fetching data.</div>
 
     return (
-        <div>
+        <div className="p-4">
             <div className="flex items-center gap-2 mb-4">
                 <Input
                     type="text"
