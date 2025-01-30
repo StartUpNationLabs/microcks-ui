@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
+import {useNavigate} from "react-router";
 
 export default function Hero() {
+    const navigate = useNavigate();
     return (
         <>
             {/* Hero */}
@@ -32,8 +34,12 @@ export default function Hero() {
                             </div>
                             {/* Buttons */}
                             <div className="mt-8 gap-3 flex justify-center">
-                                <Button size={"lg"}>Services</Button>
-                                <Button size={"lg"} variant={"outline"}>
+                                <Button onClick={
+                                    () => navigate("/dashboard/services")
+                                } size={"lg"}>Services</Button>
+                                <Button onClick={
+                                    () => navigate("/dashboard/importers")
+                                } size={"lg"} variant={"outline"}>
                                     Importers
                                 </Button>
                             </div>
