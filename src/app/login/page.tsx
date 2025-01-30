@@ -1,7 +1,7 @@
 import { GalleryVerticalEnd } from 'lucide-react'
 
 import { LoginForm } from '@/components/login-form'
-import MicrocksLogo from '../../assets/microcks-big.png'
+import MicrocksLogo from '../../assets/atom.svg'
 
 export default function LoginPage() {
     return (
@@ -27,10 +27,9 @@ export default function LoginPage() {
                         src={MicrocksLogo}
                         alt="Image"
                         style={{
-                            width: '50%',
-                            aspectRatio: '1.126/1',
+                            width: '70%',
                         }}
-                        className="  inset-0 object-cover "
+                        className="  inset-0 object-cover animate-float "
                     />
                 </div>
             </div>

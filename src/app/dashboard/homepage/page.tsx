@@ -7,6 +7,7 @@ import {
     BreadcrumbList,
 } from '@/components/ui/breadcrumb.tsx'
 import { Link } from 'react-router'
+import Hero from "@/app/dashboard/homepage/Hero.tsx";
 
 export const Homepage = () => {
     return (
@@ -26,10 +27,7 @@ export const Homepage = () => {
                     </Breadcrumb>
                 </div>
             </header>
-            {/*<div className="container mx-auto">*/}
-            {/*    <h1>APIs and Services</h1>*/}
-            {/*    <h2>These are the APIs and Services managed by Microcks.</h2>*/}
-            {/*</div>*/}
+            <Hero />
         </SidebarInset>
     )
 }

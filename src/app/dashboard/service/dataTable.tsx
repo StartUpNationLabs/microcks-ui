@@ -1,4 +1,3 @@
-import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
     ColumnDef,
@@ -30,11 +29,12 @@ import {
     PaginationEllipsis,
     PaginationLink,
 } from '@/components/ui/pagination'
+import {useMemo, useState} from "react";
 
 // Fetcher function to get data from the API
 const fetchServices = async ({ pageParam = 0 }) => {
     const response = await fetch(
-        `http://localhost:8080/api/services?pages=${pageParam}&size=20`
+        `http://localhost:8080/api/services?pages=${pageParam}&size=50`
     )
     if (!response.ok) throw new Error('Failed to fetch data')
     return response.json()
@@ -44,13 +44,13 @@ const DataTable = () => {
     // React Query hook to fetch data
     const { data, isLoading, isError } = useQuery({
         queryKey: ['services'],
-        queryFn: fetchServices,
+        queryFn: fetchServices ,
     })
 
-    const [globalFilter, setGlobalFilter] = React.useState('')
+    const [globalFilter, setGlobalFilter] = useState('')
 
     // Table columns definition
-    const columns = React.useMemo<ColumnDef<any>[]>(
+    const columns = useMemo<ColumnDef<any>[]>(
         () => [
             {
                 accessorKey: 'name',
@@ -161,7 +161,6 @@ const DataTable = () => {
                         (_, index) => (
                             <PaginationItem key={index}>
                                 <PaginationLink
-                                    href="#"
                                     onClick={() =>
                                         tableInstance.setPageIndex(index)
                                     }
