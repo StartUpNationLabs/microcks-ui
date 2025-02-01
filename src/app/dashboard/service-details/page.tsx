@@ -1,10 +1,10 @@
 import { SidebarInset } from '@/components/ui/sidebar'
-import DataTable from '../service/dataTable'
 import { Header } from '../service/header'
 import { useNavigate, useParams } from 'react-router'
 import { mockApi } from '@/apis'
 import { ServiceView } from '@/api'
 import { useQuery } from '@tanstack/react-query'
+import { ServiceAccordion } from './service-accordion'
 
 const fetchService = async (id: string) => {
     return (await mockApi.getService({ id: id ?? '', messages: true }))
@@ -28,6 +28,8 @@ export default function ServiceDetails() {
     if (isError || !data) {
         return <div>Error fetching data.</div>
     }
+
+    console.table(data)
 
     const apiDateMetadataProcessing = (data: ServiceView): string => {
         return (
@@ -71,6 +73,17 @@ export default function ServiceDetails() {
                                 {apiDateMetadataProcessing(data)}
                             </p>
                         </div>
+                    </div>
+                    <div className="mt-4">
+                        {Object.keys(data.messagesMap)
+                            .reverse()
+                            .map((key, index) => (
+                                <ServiceAccordion
+                                    key={index}
+                                    operations={data.messagesMap[key]}
+                                    name={key}
+                                />
+                            ))}
                     </div>
                 </div>
             </div>

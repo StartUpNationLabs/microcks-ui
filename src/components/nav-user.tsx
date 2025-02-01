@@ -23,7 +23,6 @@ import { useKeycloak } from '@react-keycloak/web'
 export function NavUser() {
     // Using Object destructuring
     const { keycloak, initialized } = useKeycloak()
-    console.log(keycloak.idTokenParsed)
     const { isMobile } = useSidebar()
     return (
         <SidebarMenu>
