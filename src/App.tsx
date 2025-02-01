@@ -11,6 +11,7 @@ export default function App() {
                 <Route path="services" element={<Services />} />
                 <Route path="" element={<Homepage />} />
             </Route>
+            <Route path="/" element={<Dashboard />} />
             <Route path="*" element={<div>404</div>} />
         </Routes>
     )
