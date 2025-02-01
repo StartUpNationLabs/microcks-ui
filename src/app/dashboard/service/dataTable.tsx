@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/pagination'
 import {useMemo, useState} from 'react'
 import {Service} from "@/api/api.ts";
-import {mockApi} from "@/api.ts";
+import {mockApi} from "@/apis.ts";
 
 // Fetcher function to get data from the API
 const fetchServices = async ({pageParam = 0}) => {

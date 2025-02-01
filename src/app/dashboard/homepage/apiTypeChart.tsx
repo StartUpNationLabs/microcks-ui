@@ -3,7 +3,7 @@
 import * as React from "react"
 import {Label, Pie, PieChart} from "recharts"
 import {useQuery} from "@tanstack/react-query"
-import {mockApi} from "@/api.ts"
+import {mockApi} from "@/apis.ts"
 import {Counter, Service} from "@/api/index.ts"
 
 import {Card, CardContent, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
