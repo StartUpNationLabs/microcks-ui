@@ -31,7 +31,7 @@ const formSchema = z.object({
 type ValidationSchema = z.infer<typeof formSchema>;
 
 export default function PersonalInfo() {
-  const { personalInfo, setPersonalInfo, increaseStep } = useStore(
+  const { personalInfo, setPersonalInfo, increaseStep, decreaseStep, step } = useStore(
     (state) => state
   );
   const form = useForm<ValidationSchema>({
@@ -45,11 +45,15 @@ export default function PersonalInfo() {
 
   const onSubmitHandler = (values: ValidationSchema) => {
     setPersonalInfo({ ...personalInfo, ...values });
-    increaseStep(1);
+    increaseStep(step);
   };
 
+    const onPrevious = () => {
+        decreaseStep(step);
+    };
+
   return (
-    <Container onNext={form.handleSubmit(onSubmitHandler)}>
+    <Container onNext={form.handleSubmit(onSubmitHandler)} onPreviousStep={onPrevious} stepType={"MIDDLE"}>
       <SectionHeader
         title="Personal info"
         description="Please provide your name, email address, and phone number."

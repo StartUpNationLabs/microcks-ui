@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { PersonalInfoSlice } from "./slices/createPersonalInfoSlice";
-import { PlanSlice } from "./slices/createPlanSlice";
+import { IngestionTypeSlice } from "./slices/createIngestionTypeSlice.tsx";
 import { AddOnSlice } from "./slices/createAddOnSlice";
 import { ToggleSubcriptionPlanSlice } from "./slices/createToggleSubscriptionPlan";
 import {
@@ -16,7 +16,7 @@ import { SubmitFormSlice } from "./slices/createSubmitFormSlice";
 
 const useStore = create<
   PersonalInfoSlice &
-    PlanSlice &
+    IngestionTypeSlice &
     AddOnSlice &
     ToggleSubcriptionPlanSlice &
     StepSlice &

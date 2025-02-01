@@ -9,7 +9,7 @@ function calculateAddOns(addOns: AddOn[]) {
 }
 
 export default function Summary() {
-  const { step, decreaseStep, plan, selectedAddOns, isSubmitted, onSubmit } =
+  const { step, decreaseStep, ingestionType, selectedAddOns, isSubmitted, onSubmit } =
     useStore((state) => state);
 
   const onNext = () => {
@@ -20,8 +20,8 @@ export default function Summary() {
     decreaseStep(step);
   };
 
-  const subscriptionType = plan.type === "yearly" ? "yr" : "mo";
-  const total = calculateAddOns(selectedAddOns) + plan.price;
+  const subscriptionType = ingestionType.type === "yearly" ? "yr" : "mo";
+  const total = calculateAddOns(selectedAddOns) + ingestionType.price;
 
   return (
     <Container onNext={onNext} onPreviousStep={onPrevious}>
@@ -36,7 +36,7 @@ export default function Summary() {
           <section className="bg-c-neutral-alabaster rounded-[8px] px-6 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm text-c-primary-marine-blue font-medium lg:text-base">{`${plan.name} (${plan.type})`}</h3>
+                <h3 className="text-sm text-c-primary-marine-blue font-medium lg:text-base">{`${ingestionType.name} (${ingestionType.type})`}</h3>
                 <span
                   className="text-c-neutral-cool-gray underline text-sm hover:text-c-primary-purplish-blue cursor-pointer"
                   onClick={() => decreaseStep(3)}
@@ -45,7 +45,7 @@ export default function Summary() {
                 </span>
               </div>
               <span className="text-sm font-bold text-c-primary-marine-blue inline lg:text-base">
-                {`${plan.price}/${subscriptionType}`}
+                {`${ingestionType.price}/${subscriptionType}`}
               </span>
             </div>
             <div className="h-[1px] w-full bg-c-neutral-light-gray my-3" />
@@ -68,7 +68,7 @@ export default function Summary() {
           </section>
           <div className="mt-6 flex items justify-between px-4">
             <span className="text-c-neutral-cool-gray text-sm">{`Total (per ${
-              plan.type === "yearly" ? "year" : "month"
+              ingestionType.type === "yearly" ? "year" : "month"
             })`}</span>
             <span className="text-base font-bold text-c-primary-purplish-blue lg:text-xl">
               {`+$${total}/${subscriptionType}`}

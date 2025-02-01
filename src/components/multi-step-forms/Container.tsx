@@ -9,6 +9,8 @@ type TContainer = {
   className?: string;
   onNext: () => void;
   onPreviousStep?: () => void;
+  showSidebar?: boolean;
+  stepType: "FIRST" | "MIDDLE" | "LAST";
 };
 
 export default function Container({
@@ -16,6 +18,9 @@ export default function Container({
   className,
   onNext,
   onPreviousStep,
+  showSidebar = true,
+    stepType,
+
 }: TContainer) {
   const { step, isSubmitted } = useStore((state) => state);
   return (
@@ -26,7 +31,7 @@ export default function Container({
           className
         )}
       >
-        <Sidebar />
+        {showSidebar && <Sidebar />}
         <div className="w-full mr-[80px] relative">
           {children}
           {!isSubmitted && (
@@ -34,6 +39,7 @@ export default function Container({
               className="hidden lg:inline-flex lg:absolute lg:bottom-0 lg:left-0 lg:right-0"
               onHandleNextStep={onNext}
               onHandlePreviousStep={onPreviousStep}
+                stepType={stepType}
             />
           )}
         </div>
@@ -46,6 +52,7 @@ export default function Container({
           )}
           onHandleNextStep={onNext}
           onHandlePreviousStep={onPreviousStep}
+          stepType={stepType}
         />
       )}
     </>
