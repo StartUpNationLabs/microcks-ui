@@ -26,7 +26,9 @@ export function LoginForm({
                 <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => keycloak.login()}
+                    onClick={() => keycloak.login({
+                        redirectUri: window.location.origin + '/dashboard'
+                    })}
                 >
                     <img src={KeycloakLogo} alt="" className="w-5 h-5" />
                     Login with Keycloak
