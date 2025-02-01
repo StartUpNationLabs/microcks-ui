@@ -6,8 +6,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { TabsContent } from '@radix-ui/react-tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface ServiceAccordionProps {
     name: string
