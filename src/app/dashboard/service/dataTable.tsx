@@ -1,9 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import {useQuery} from '@tanstack/react-query'
 import {
     ColumnDef,
-    ColumnFiltersState,
-    SortingState,
-    VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -11,62 +8,40 @@ import {
     getSortedRowModel,
     useReactTable,
 } from '@tanstack/react-table'
-import {
-    Table,
-    TableHeader,
-    TableBody,
-    TableRow,
-    TableCell,
-} from '@/components/ui/table'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import {Table, TableBody, TableCell, TableHeader, TableRow,} from '@/components/ui/table'
+import {Input} from '@/components/ui/input'
+import {Button} from '@/components/ui/button'
 import {
     Pagination,
     PaginationContent,
-    PaginationItem,
-    PaginationPrevious,
-    PaginationNext,
     PaginationEllipsis,
+    PaginationItem,
     PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
 } from '@/components/ui/pagination'
-import {useMemo, useState} from "react";
+import {useMemo, useState} from 'react'
+import {Service} from "@/api/api.ts";
+import {mockApi} from "@/api.ts";
 
 // Fetcher function to get data from the API
-const fetchServices = async ({ pageParam = 0 }) => {
-    const response = await fetch(
-        `http://localhost:8080/api/services?pages=${pageParam}&size=50`
-    )
-    if (!response.ok) throw new Error('Failed to fetch data')
-    return response.json()
+const fetchServices = async ({pageParam = 0}) => {
+    return (await mockApi.getServices({size: 20, page: pageParam}))?.data as Service[]
 }
 
 const DataTable = () => {
-    // React Query hook to fetch data
-    const { data, isLoading, isError } = useQuery({
+    const {data, isLoading, isError} = useQuery({
         queryKey: ['services'],
-        queryFn: fetchServices ,
+        queryFn: fetchServices,
     })
 
     const [globalFilter, setGlobalFilter] = useState('')
 
-    // Table columns definition
     const columns = useMemo<ColumnDef<any>[]>(
         () => [
-            {
-                accessorKey: 'name',
-                header: 'Name',
-                cell: (info) => info.getValue(),
-            },
-            {
-                accessorKey: 'version',
-                header: 'Version',
-                cell: (info) => info.getValue(),
-            },
-            {
-                accessorKey: 'type',
-                header: 'Type',
-                cell: (info) => info.getValue(),
-            },
+            {accessorKey: 'name', header: 'Name', cell: (info) => info.getValue()},
+            {accessorKey: 'version', header: 'Version', cell: (info) => info.getValue()},
+            {accessorKey: 'type', header: 'Type', cell: (info) => info.getValue()},
             {
                 accessorKey: 'operationsCount',
                 header: 'Operations Count',
@@ -79,9 +54,7 @@ const DataTable = () => {
     const tableInstance = useReactTable({
         data: data || [],
         columns,
-        state: {
-            globalFilter,
-        },
+        state: {globalFilter},
         onGlobalFilterChange: setGlobalFilter,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -94,15 +67,18 @@ const DataTable = () => {
 
     return (
         <div className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-                <Input
-                    type="text"
-                    placeholder="Search..."
-                    value={globalFilter}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    style={{ width: '300px' }}
-                />
-                <Button onClick={() => setGlobalFilter('')}>Clear</Button>
+            <div className="flex items-center gap-2 mb-4 justify-between">
+                <div className="flex items-center gap-2">
+                    <Input
+                        type="text"
+                        placeholder="Search..."
+                        value={globalFilter}
+                        onChange={(e) => setGlobalFilter(e.target.value)}
+                        style={{width: '300px'}}
+                    />
+                    <Button onClick={() => setGlobalFilter('')}>Clear</Button>
+                </div>
+                <Button className="ml-auto">Add Service</Button>
             </div>
             <Table>
                 <TableHeader>
@@ -110,23 +86,10 @@ const DataTable = () => {
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (
                                 <TableCell key={header.id}>
-                                    <div
-                                        onClick={header.column.getToggleSortingHandler()}
-                                        className="cursor-pointer flex items-center"
-                                    >
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                  header.column.columnDef
-                                                      .header,
-                                                  header.getContext()
-                                              )}
-                                        {header.column.getIsSorted()
-                                            ? header.column.getIsSorted() ===
-                                              'asc'
-                                                ? ' 🔼'
-                                                : ' 🔽'
-                                            : null}
+                                    <div onClick={header.column.getToggleSortingHandler()}
+                                         className="cursor-pointer flex items-center">
+                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                                        {header.column.getIsSorted() ? (header.column.getIsSorted() === 'asc' ? ' 🔼' : ' 🔽') : null}
                                     </div>
                                 </TableCell>
                             ))}
@@ -137,12 +100,8 @@ const DataTable = () => {
                     {tableInstance.getRowModel().rows.map((row) => (
                         <TableRow key={row.id}>
                             {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}
-                                </TableCell>
+                                <TableCell
+                                    key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                             ))}
                         </TableRow>
                     ))}
@@ -151,34 +110,21 @@ const DataTable = () => {
             <Pagination>
                 <PaginationContent>
                     <PaginationItem>
-                        <PaginationPrevious
-                            href="#"
-                            onClick={() => tableInstance.previousPage()}
-                            disabled={!tableInstance.getCanPreviousPage()}
-                        />
+                        <PaginationPrevious href="#" onClick={() => tableInstance.previousPage()}
+                                            disabled={!tableInstance.getCanPreviousPage()}/>
                     </PaginationItem>
-                    {Array.from({ length: tableInstance.getPageCount() }).map(
-                        (_, index) => (
-                            <PaginationItem key={index}>
-                                <PaginationLink
-                                    onClick={() =>
-                                        tableInstance.setPageIndex(index)
-                                    }
-                                >
-                                    {index + 1}
-                                </PaginationLink>
-                            </PaginationItem>
-                        )
-                    )}
+                    {Array.from({length: tableInstance.getPageCount()}).map((_, index) => (
+                        <PaginationItem key={index}>
+                            <PaginationLink
+                                onClick={() => tableInstance.setPageIndex(index)}>{index + 1}</PaginationLink>
+                        </PaginationItem>
+                    ))}
                     <PaginationItem>
-                        <PaginationEllipsis />
+                        <PaginationEllipsis/>
                     </PaginationItem>
                     <PaginationItem>
-                        <PaginationNext
-                            href="#"
-                            onClick={() => tableInstance.nextPage()}
-                            disabled={!tableInstance.getCanNextPage()}
-                        />
+                        <PaginationNext href="#" onClick={() => tableInstance.nextPage()}
+                                        disabled={!tableInstance.getCanNextPage()}/>
                     </PaginationItem>
                 </PaginationContent>
             </Pagination>
