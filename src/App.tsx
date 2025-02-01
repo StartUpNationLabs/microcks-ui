@@ -3,13 +3,9 @@ import LoginPage from '@/app/login/page.tsx'
 import Services from './app/dashboard/service/page'
 import { Route, Routes } from 'react-router'
 import { Homepage } from '@/app/dashboard/homepage/page.tsx'
-import ThankYou from "@/components/multi-step-forms/sections/ThankYou.tsx";
-import PersonalInfo from "@/components/multi-step-forms/sections/PersonalInfo.tsx";
-import Addons from "@/components/multi-step-forms/sections/Addons.tsx";
-import Plan from "@/components/multi-step-forms/sections/Plan.tsx";
-import Summary from "@/components/multi-step-forms/sections/Summary.tsx";
-import Step from "@/components/multi-step-forms/Step.tsx";
 import useStore from "@/store/useStore.ts";
+import ServiceDetails from "@/app/dashboard/service-details/page.tsx";
+import {Form} from "@/Form.tsx";
 export default function App() {
     const step = useStore((state) => state.step);
     return (

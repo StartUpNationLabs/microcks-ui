@@ -10,7 +10,8 @@ export const AddService = () => {
             ><Button>Add Service</Button></DialogTrigger>
             <DialogContent
                 style={{
-                    width: "fit-content"
+                    width: "fit-content",
+                    maxWidth: "100%",
                 }}
             >
                 <Form/>

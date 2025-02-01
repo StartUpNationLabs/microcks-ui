@@ -30,6 +30,7 @@ import { useMemo, useState } from 'react'
 import { Service } from '@/api/api.ts'
 import { mockApi } from '@/apis.ts'
 import { useNavigate } from 'react-router'
+import {AddService} from "@/app/dashboard/service/addService.tsx";
 
 // Fetcher function to get data from the API
 const fetchServices = async ({ pageParam = 0 }) => {
@@ -100,7 +101,7 @@ const DataTable = () => {
                     />
                     <Button onClick={() => setGlobalFilter('')}>Clear</Button>
                 </div>
-                <Button className="ml-auto">Add Service</Button>
+                <AddService />
             </div>
             <Table>
                 <TableHeader>
