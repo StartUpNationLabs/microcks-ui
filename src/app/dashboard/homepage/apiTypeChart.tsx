@@ -1,70 +1,74 @@
 "use client"
 
 import * as React from "react"
-import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart } from "recharts"
+import {Label, Pie, PieChart} from "recharts"
+import {useQuery} from "@tanstack/react-query"
+import {mockApi} from "@/api.ts"
+import {Counter, Service} from "@/api/index.ts"
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import {Card, CardContent, CardFooter, CardHeader, CardTitle,} from "@/components/ui/card"
 import {
     ChartConfig,
     ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
 
+// Define a chart configuration for API service types
 const chartConfig = {
-    visitors: {
-        label: "Visitors",
+    count: {
+        label: "Services",
     },
-    chrome: {
-        label: "Chrome",
-        color: "hsl(var(--chart-1))",
-    },
-    safari: {
-        label: "Safari",
-        color: "hsl(var(--chart-2))",
-    },
-    firefox: {
-        label: "Firefox",
-        color: "hsl(var(--chart-3))",
-    },
-    edge: {
-        label: "Edge",
-        color: "hsl(var(--chart-4))",
-    },
-    other: {
-        label: "Other",
-        color: "hsl(var(--chart-5))",
-    },
+    REST: {label: "REST", color: "hsl(var(--chart-1))"},
+    SOAP_HTTP: {label: "SOAP", color: "hsl(var(--chart-2))"},
+    GENERIC_REST: {label: "Generic REST", color: "hsl(var(--chart-3))"},
+    GENERIC_EVENT: {label: "Generic Event", color: "hsl(var(--chart-4))"},
+    EVENT: {label: "Event", color: "hsl(var(--chart-5))"},
+    GRPC: {label: "gRPC", color: "hsl(var(--chart-6))"},
+    GRAPHQL: {label: "GraphQL", color: "hsl(var(--chart-7))"},
 } satisfies ChartConfig
 
 export function ApiTypeChart() {
-    const totalVisitors = React.useMemo(() => {
-        return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-    }, [])
+    // Query to get the list of services
+    const {data: services} = useQuery({
+        queryKey: ['services', {pageParam: 0}],
+        queryFn: async () => {
+            return (await mockApi.getServices({size: 500}))?.data as Service[]
+        },
+    })
+
+    const {data: totalApis} = useQuery({
+        queryKey: ['services', "count"],
+        queryFn: async () => {
+            return (await mockApi.getServicesCounter())?.data as Counter
+        },
+    })
+    const totalCount = totalApis?.counter || 0
+
+    // Aggregate the services by their type
+    const aggregatedData = React.useMemo(() => {
+        if (!services) return []
+        const counts: Record<string, number> = {}
+        services.forEach((service) => {
+            const type = service.type
+            counts[type] = (counts[type] || 0) + 1
+        })
+
+        // Map the counts to the format needed for recharts, and include the color from chartConfig.
+        return Object.entries(counts).map(([type, count]) => ({
+            type,
+            count,
+            fill: chartConfig[type]?.color || "var(--default-chart-color)",
+        }))
+    }, [services])
+
 
     return (
-        <Card className="flex flex-col "
-              style={{ border: "0" }}
-
-        >
+        <Card className="flex flex-col" style={{border: "0"}}>
             <CardHeader className="items-center pb-0">
-                <CardTitle>Pie Chart - Donut with Text</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>Service Types</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
@@ -72,19 +76,16 @@ export function ApiTypeChart() {
                     className="mx-auto aspect-square max-h-[250px]"
                 >
                     <PieChart>
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
-                        />
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel/>}/>
                         <Pie
-                            data={chartData}
-                            dataKey="visitors"
-                            nameKey="browser"
+                            data={aggregatedData}
+                            dataKey="count"
+                            nameKey="type"
                             innerRadius={60}
                             strokeWidth={5}
                         >
                             <Label
-                                content={({ viewBox }) => {
+                                content={({viewBox}) => {
                                     if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                         return (
                                             <text
@@ -98,32 +99,30 @@ export function ApiTypeChart() {
                                                     y={viewBox.cy}
                                                     className="fill-foreground text-3xl font-bold"
                                                 >
-                                                    {totalVisitors.toLocaleString()}
+                                                    {totalCount}
                                                 </tspan>
                                                 <tspan
                                                     x={viewBox.cx}
                                                     y={(viewBox.cy || 0) + 24}
                                                     className="fill-muted-foreground"
                                                 >
-                                                    Visitors
+                                                    Services
                                                 </tspan>
                                             </text>
                                         )
                                     }
+                                    return null
                                 }}
                             />
                         </Pie>
+                        <ChartLegend
+                            content={<ChartLegendContent/>}
+                            className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+                        />
                     </PieChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter className="flex-col gap-2 text-sm">
-                <div className="flex items-center gap-2 font-medium leading-none">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
-                </div>
-            </CardFooter>
+            <CardFooter>{/* Optional: additional footer content */}</CardFooter>
         </Card>
     )
 }

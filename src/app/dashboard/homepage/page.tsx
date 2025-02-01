@@ -26,10 +26,10 @@ export const Homepage = () => {
                 </div>
             </header>
 
-            <div className="p-4 space-y-4">
+            <div className="space-y-4">
                 <Hero/>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 justify-between gap-4"
+                <div className="grid grid-cols-1 md:grid-cols-2 justify-between "
                 >
                     <InvocationChart/>
                     <ApiTypeChart/>
