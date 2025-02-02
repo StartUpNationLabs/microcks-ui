@@ -29,9 +29,10 @@ type IngestionType = {
 type IngestionTypeSlice = {
     ingestionType: IngestionType;
     setIngestionType: (plan: IngestionType) => void;
+    resetIngestionType: () => void;
 };
 
-const initialState = {
+export  const initialState = {
     type: IngestionTypeEnums.NOT_SET,
     name: "",
     image: <></>,
@@ -73,6 +74,7 @@ export const ingestionTypes: IngestionType[] = [
 const createIngestionTypeSlice: StateCreator<IngestionTypeSlice> = (set) => ({
     ingestionType: initialState,
     setIngestionType: (data) => set((state) => ({ingestionType: {...state.ingestionType, ...data}})),
+    resetIngestionType: () => set({ingestionType: initialState}),
 });
 
 export default createIngestionTypeSlice;

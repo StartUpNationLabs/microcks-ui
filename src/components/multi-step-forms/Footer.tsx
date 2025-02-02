@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useStore from "@/store/useStore";
+import {DialogClose} from "@/components/ui/dialog.tsx";
 
 type TFooter = {
   className?: string;
