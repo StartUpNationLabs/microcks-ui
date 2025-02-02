@@ -19,25 +19,33 @@ export function ServiceAccordion(props: ServiceAccordionProps) {
             <AccordionItem value="item-1">
                 <AccordionTrigger>{props.name}</AccordionTrigger>
                 <AccordionContent>
-                    <Tabs>
-                        <TabsList>
+                    {props.operations.length > 0 && (
+                        <Tabs defaultValue="0">
+                            <TabsList>
+                                {props.operations.map((operation, index) => (
+                                    <TabsTrigger
+                                        key={index}
+                                        value={index.toString()}
+                                    >
+                                        {operation.type === 'reqRespPair'
+                                            ? operation.request.name
+                                            : operation.eventMessage.name}
+                                    </TabsTrigger>
+                                ))}
+                            </TabsList>
                             {props.operations.map((operation, index) => (
-                                <TabsTrigger
+                                <TabsContent
                                     key={index}
                                     value={index.toString()}
                                 >
-                                    {operation.type === 'reqRespPair'
-                                        ? operation.request.name
-                                        : operation.eventMessage.name}
-                                </TabsTrigger>
+                                    <ServiceOperation
+                                        operation={operation}
+                                        name={props.name}
+                                    />
+                                </TabsContent>
                             ))}
-                        </TabsList>
-                        {props.operations.map((operation, index) => (
-                            <TabsContent key={index} value={index.toString()}>
-                                <ServiceOperation operation={operation} />
-                            </TabsContent>
-                        ))}
-                    </Tabs>
+                        </Tabs>
+                    )}
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
