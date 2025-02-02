@@ -13,7 +13,7 @@ export default function Summary() {
     useStore((state) => state);
 
   const onNext = () => {
-    setIsSubmitted(isSubmitted);
+    // setIsSubmitted(isSubmitted);
   };
 
   const onPrevious = () => {

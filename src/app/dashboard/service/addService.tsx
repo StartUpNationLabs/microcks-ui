@@ -1,36 +1,44 @@
-import {Dialog, DialogContent, DialogTrigger,} from "@/components/ui/dialog"
+import {Dialog, DialogContent,} from "@/components/ui/dialog"
 import {Form} from "@/Form.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import useStore from "@/store/useStore.ts";
 import {useEffect} from "react";
 
 export const AddService = () => {
-    const {resetStep, resetIngestionType, dialogOpen, setDialogOpen, setIsSubmitted} = useStore((state) => state);
+    const {
+        resetStep,
+        resetIngestionType,
+        dialogOpen,
+        setDialogOpen,
+        setIsSubmitted,
+        isSubmitted
+    } = useStore((state) => state);
 
     useEffect(() => {
-        if (!dialogOpen) {
-            resetStep();
-            resetIngestionType();
-            setIsSubmitted(false);
-        }
+        setIsSubmitted(false);
+        resetStep();
+        resetIngestionType();
     }, [dialogOpen]);
     return (
         <Dialog open={dialogOpen} onOpenChange={(open) => {
-            setDialogOpen(open);
             if (!open) {
+                setIsSubmitted(false);
                 resetStep();
                 resetIngestionType();
-                setIsSubmitted(false);
+                setDialogOpen(false);
             }
         }}>
-            <DialogTrigger
-
-            ><Button>Add Service</Button></DialogTrigger>
+            <Button onClick={
+                () => {
+                    setDialogOpen(true);
+                }
+            }>Add Service</Button>
             <DialogContent
                 style={{
                     width: "fit-content",
                     maxWidth: "100%",
                 }}
+                className="flex justify-center items-center"
             >
                 <Form/>
             </DialogContent>

@@ -9,8 +9,8 @@ type SubmitFormSlice = {
 
 const createSubmitFormSlice: StateCreator<SubmitFormSlice> = (set) => ({
     isSubmitted: false,
-    setIsSubmitted: () =>
-        set((state) => ({...state, isSubmitted: !state.isSubmitted})),
+    setIsSubmitted: (isSubmitted) =>
+        set((state) => ({...state, isSubmitted})),
     dialogOpen: false,
     setDialogOpen: (dialogOpen) => set((state) => ({...state, dialogOpen})),
 });

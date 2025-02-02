@@ -2,7 +2,7 @@ import {ConfigApi, DefaultApi, JobApi, MetricsApi, MockApi, TestApi} from "@/api
 import {Configuration} from "@/api/configuration.ts";
 
 
-const configuration = new Configuration({
+export const configuration = new Configuration({
     basePath: 'http://localhost:8080/api',
 })
 export const mockApi = new MockApi(configuration);
