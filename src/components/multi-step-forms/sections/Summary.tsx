@@ -9,11 +9,11 @@ function calculateAddOns(addOns: AddOn[]) {
 }
 
 export default function Summary() {
-  const { step, decreaseStep, ingestionType, selectedAddOns, isSubmitted, onSubmit } =
+  const { step, decreaseStep, ingestionType, selectedAddOns, isSubmitted, setIsSubmitted } =
     useStore((state) => state);
 
   const onNext = () => {
-    onSubmit(isSubmitted);
+    setIsSubmitted(isSubmitted);
   };
 
   const onPrevious = () => {

@@ -23,7 +23,7 @@ const formSchema = z.object({
 });
 
 export default function Submit() {
-    const { step, increaseStep, decreaseStep } = useStore((state) => state);
+    const { step, increaseStep, decreaseStep, setIsSubmitted, setDialogOpen } = useStore((state) => state);
 
     const onPrevious = () => {
         decreaseStep(step);
@@ -36,7 +36,8 @@ export default function Submit() {
     const fileRef = form.register("file");
     const onNext = () => {
         form.handleSubmit(async (data) => {
-            console.log(data);
+            setIsSubmitted(true)
+            setDialogOpen(false)
         })();
     };
 
